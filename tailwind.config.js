@@ -8,9 +8,13 @@ module.exports = {
     extend: {
       colors: {
         primary: {
+          DEFAULT: '#1E293B',
+          light: '#334155',
+          dark: '#0F172A',
+        },
+        // Color azul rey original para uso específico
+        royal: {
           DEFAULT: '#1E40AF',
-          light: '#3B82F6',
-          dark: '#1E3A8A',
         },
         accent: {
           DEFAULT: '#F59E0B',
@@ -23,7 +27,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Manrope', 'system-ui', 'sans-serif'],
       },
     },
   },

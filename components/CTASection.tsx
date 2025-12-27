@@ -11,6 +11,7 @@ export default function CTASection() {
           src="/images/ducto.png"
           alt="Sistemas de ducto"
           fill
+          sizes="100vw"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-primary-dark/95" />

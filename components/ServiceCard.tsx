@@ -32,6 +32,7 @@ export default function ServiceCard({ title, description, iconName, href, image 
           src={image}
           alt={title}
           fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
           className="object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
