@@ -17,7 +17,8 @@ type Props = {
 }
 
 /**
- * Número que sube desde 0 hasta `value` cuando entra en pantalla.
+ * Número que sube desde 0 hasta `value` cada vez que entra en pantalla
+ * (al salir se reinicia, así el efecto se ve en cada scroll).
  * Si el usuario prefiere menos movimiento, muestra el valor final directo.
  */
 export default function CountUp({
@@ -25,47 +26,50 @@ export default function CountUp({
   prefix = '',
   suffix = '',
   decimals = 0,
-  duration = 1800,
+  duration = 2200,
   className = '',
 }: Props) {
   const ref = useRef<HTMLSpanElement>(null)
   const [shown, setShown] = useState(0)
-  const [done, setDone] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduce) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setShown(value)
-      setDone(true)
       return
     }
     let raf = 0
+    const stop = () => cancelAnimationFrame(raf)
+    const play = () => {
+      stop()
+      const start = performance.now()
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / duration)
+        const eased = 1 - Math.pow(1 - t, 3) // arranca rápido y frena al final
+        setShown(t < 1 ? value * eased : value)
+        if (t < 1) raf = requestAnimationFrame(tick)
+      }
+      raf = requestAnimationFrame(tick)
+    }
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) return
-        io.disconnect()
-        const start = performance.now()
-        const tick = (now: number) => {
-          const t = Math.min(1, (now - start) / duration)
-          const eased = 1 - Math.pow(1 - t, 3) // arranca rápido y frena al final
-          setShown(value * eased)
-          if (t < 1) raf = requestAnimationFrame(tick)
-          else setDone(true)
+        if (entry.isIntersecting) play()
+        else {
+          stop()
+          setShown(0)
         }
-        raf = requestAnimationFrame(tick)
       },
-      { threshold: 0.4 }
+      { threshold: 0.6 }
     )
     io.observe(el)
     return () => {
       io.disconnect()
-      cancelAnimationFrame(raf)
+      stop()
     }
   }, [value, duration])
 
-  const text = (done ? value : shown).toLocaleString('es-MX', {
+  const text = shown.toLocaleString('es-MX', {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   })
