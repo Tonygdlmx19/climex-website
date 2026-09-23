@@ -45,7 +45,7 @@ export const services: Service[] = [
     id: 'reparacion',
     title: 'Reparación',
     short: 'Diagnóstico preciso y refacciones originales para todas las marcas.',
-    image: '/images/reparacion.png',
+    image: '/images/servicio-reparacion.jpg',
     intro:
       'Diagnosticamos y reparamos fallas en equipos de aire acondicionado de cualquier marca: minisplit, piso-techo, paquete, ductos y sistemas comerciales.',
     includes: [
