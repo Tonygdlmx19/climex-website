@@ -104,7 +104,7 @@ export const services: Service[] = [
   {
     id: 'venta',
     title: 'Venta de equipos',
-    short: 'Minisplit inverter, piso-techo y paquete de las mejores marcas, con garantía de fábrica.',
+    short: 'Minisplit, piso techo, ventana, fan & coil, paquete, divididos y evaporativos de las mejores marcas.',
     image: '/images/servicio-venta.jpg',
     intro:
       'Amplia variedad de equipos de aire acondicionado de las mejores marcas, con garantía de fábrica, respaldo técnico y precio competitivo.',
@@ -116,11 +116,13 @@ export const services: Service[] = [
       {
         title: 'Tipos de equipo',
         items: [
-          'Minisplit inverter residencial y comercial',
-          'Piso-techo',
-          'Tipo paquete',
-          'Sistema dividido y ductos',
-          'Equipos de precisión',
+          'Minisplit',
+          'Piso techo',
+          'Ventana',
+          'Fan & Coil',
+          'Paquete',
+          'Divididos',
+          'Evaporativos',
         ],
       },
       {
