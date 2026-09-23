@@ -55,7 +55,7 @@ export default function NosotrosPage() {
           </div>
         </div>
         <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-card">
-          <Image src="/images/instalacion.png" alt="Técnicos de Climex instalando un equipo" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+          <Image src="/images/servicio-instalacion.jpg" alt="Técnico de Climex listo para instalar un equipo" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
         </div>
       </section>
 

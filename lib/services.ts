@@ -75,7 +75,7 @@ export const services: Service[] = [
     id: 'instalacion',
     title: 'Instalación',
     short: 'Instalación integral: tubería, eléctrico, drenaje y albañilería en un solo servicio.',
-    image: '/images/instalacion.png',
+    image: '/images/servicio-instalacion.jpg',
     intro:
       'Nos encargamos de todo para que tu equipo quede funcionando perfecto: desde la selección del equipo ideal hasta el último detalle de acabado.',
     includes: [
@@ -105,7 +105,7 @@ export const services: Service[] = [
     id: 'venta',
     title: 'Venta de equipos',
     short: 'Minisplit inverter, piso-techo y paquete de las mejores marcas, con garantía de fábrica.',
-    image: '/images/venta.png',
+    image: '/images/servicio-venta.jpg',
     intro:
       'Amplia variedad de equipos de aire acondicionado de las mejores marcas, con garantía de fábrica, respaldo técnico y precio competitivo.',
     includes: [
@@ -134,7 +134,7 @@ export const services: Service[] = [
     id: 'proyectos',
     title: 'Proyectos comerciales e industriales',
     short: 'Diseño, cálculo de carga térmica e instalación para oficinas, comercios y naves.',
-    image: '/images/proyectos.png',
+    image: '/images/servicio-proyectos.jpg',
     intro:
       'Si necesitas climatizar un espacio comercial o industrial, diseñamos y ejecutamos el proyecto completo con base en cálculo de carga térmica.',
     includes: [
@@ -161,7 +161,7 @@ export const services: Service[] = [
     id: 'complementarios',
     title: 'Servicios complementarios',
     short: 'Albañilería, tabla roca, pintura, fontanería e instalaciones eléctricas.',
-    image: '/images/ducto.png',
+    image: '/images/servicio-complementarios.jpg',
     intro:
       'Para que tu proyecto quede completamente terminado, también realizamos los trabajos alrededor de la instalación.',
     includes: [
