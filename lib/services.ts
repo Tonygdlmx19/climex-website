@@ -13,7 +13,7 @@ export const services: Service[] = [
     id: 'mantenimiento',
     title: 'Mantenimiento preventivo',
     short: 'Limpieza profunda, revisión eléctrica y de gas para que tu equipo enfríe como el primer día.',
-    image: '/images/mantenimiento.png',
+    image: '/images/servicio-mantenimiento.jpg',
     intro:
       'El mantenimiento preventivo y correctivo mantiene tus equipos funcionando al máximo todo el año, reduce el consumo de energía y evita fallas costosas.',
     includes: [
