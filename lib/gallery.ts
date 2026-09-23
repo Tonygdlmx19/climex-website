@@ -19,12 +19,6 @@ export const works: Work[] = [
     h: 1512,
   },
   {
-    src: '/trabajos/06-condensadoras-minisplit-azotea.jpg',
-    alt: 'Proyecto con catorce condensadoras de minisplit alineadas en azotea',
-    w: 1600,
-    h: 747,
-  },
-  {
     src: '/trabajos/04-condensadoras-mirage-inverter.jpg',
     alt: 'Instalación de dos condensadoras Mirage Inverter X sobre base metálica',
     w: 963,
@@ -65,5 +59,11 @@ export const works: Work[] = [
     alt: 'Instalación de sistema de ventilación en techo de nave industrial',
     w: 1200,
     h: 1600,
+  },
+  {
+    src: '/trabajos/06-condensadoras-minisplit-azotea.jpg',
+    alt: 'Proyecto con catorce condensadoras de minisplit alineadas en azotea',
+    w: 1600,
+    h: 747,
   },
 ]

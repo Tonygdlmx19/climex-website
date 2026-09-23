@@ -19,6 +19,9 @@ export default function Gallery({
   heading?: boolean
 }) {
   const items = works.slice(0, limit)
+  // Con 3 columnas, el primer elemento ocupa 2x2; si al final sobra una sola
+  // foto, ocupa toda la fila para no dejar un hueco.
+  const orphanLast = items.length > 3 && (items.length - 3) % 3 === 1
   const [index, setIndex] = useState<number | null>(null)
 
   const close = useCallback(() => setIndex(null), [])
@@ -53,19 +56,38 @@ export default function Gallery({
 
         <ul className={`grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 ${heading ? 'mt-12' : ''}`}>
           {items.map((w, i) => (
-            <li key={w.src} className={i === 0 ? 'col-span-2 row-span-2' : ''}>
+            <li
+              key={w.src}
+              className={
+                i === 0 ? 'col-span-2 row-span-2' : orphanLast && i === items.length - 1 ? 'col-span-2 md:col-span-3' : ''
+              }
+            >
               <button
                 type="button"
                 onClick={() => setIndex(i)}
                 className="group relative block h-full w-full overflow-hidden rounded-2xl bg-mist focus-visible:ring-4"
                 aria-label={`Ampliar: ${w.alt}`}
               >
-                <span className={`relative block ${i === 0 ? 'aspect-[4/3] md:aspect-auto md:h-full md:min-h-[24rem]' : 'aspect-[4/3]'}`}>
+                <span
+                  className={`relative block ${
+                    i === 0
+                      ? 'aspect-[4/3] md:aspect-auto md:h-full md:min-h-[24rem]'
+                      : orphanLast && i === items.length - 1
+                        ? 'aspect-[16/9] md:aspect-[3/1]'
+                        : 'aspect-[4/3]'
+                  }`}
+                >
                   <Image
                     src={w.src}
                     alt={w.alt}
                     fill
-                    sizes={i === 0 ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 50vw'}
+                    sizes={
+                      orphanLast && i === items.length - 1
+                        ? '100vw'
+                        : i === 0
+                          ? '(min-width: 768px) 66vw, 100vw'
+                          : '(min-width: 768px) 33vw, 50vw'
+                    }
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                   />
                 </span>
