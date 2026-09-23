@@ -7,12 +7,12 @@ const stats = [
   { value: `${site.yearsExperience}`, suffix: ' años', label: 'de experiencia en Guadalajara' },
   { value: `+${site.happyClients}`, suffix: '', label: 'clientes atendidos' },
   { value: `${site.googleRating}`, suffix: ' ★', label: 'calificación en Google' },
-  { value: '1', suffix: ' año', label: 'de garantía en instalaciones' },
+  { value: '90', suffix: ' días', label: 'de garantía en instalación' },
 ]
 
 const features = [
   { icon: Award, title: 'Experiencia comprobada', text: `${site.yearsExperience} años de trayectoria en la zona metropolitana.` },
-  { icon: ShieldCheck, title: 'Garantía por escrito', text: 'En instalaciones, reparaciones y mantenimientos.' },
+  { icon: ShieldCheck, title: 'Garantía por escrito', text: '90 días en instalación, 30 días en mantenimiento y garantía de fábrica en equipos.' },
   { icon: Users, title: 'Técnicos certificados', text: 'Personal capacitado en las principales marcas.' },
   { icon: Clock, title: 'Respuesta rápida', text: 'Atendemos y programamos visitas el mismo día o al siguiente.' },
   { icon: Wrench, title: 'Servicio integral', text: 'Eléctrico, albañilería y acabados incluidos.' },

@@ -20,9 +20,9 @@ const values = [
 ]
 
 const guarantees = [
-  { value: '1 año', label: 'de garantía en instalaciones' },
-  { value: '90 días', label: 'de garantía en reparaciones' },
-  { value: '100 %', label: 'refacciones originales' },
+  { value: site.guarantees.installation, label: 'de garantía en instalación' },
+  { value: site.guarantees.maintenance, label: 'de garantía en mantenimiento' },
+  { value: 'Fábrica', label: 'garantía en equipos según el fabricante' },
 ]
 
 export default function NosotrosPage() {

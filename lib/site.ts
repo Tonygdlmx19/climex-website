@@ -13,7 +13,8 @@ export const site = {
   foundedYear: 2008,
   happyClients: 830,
   googleRating: 4.8,
-  googleReviewsUrl: 'https://www.google.com/maps/search/?api=1&query=Climex+Soluciones+Integrales+Guadalajara',
+  // Ficha de Google de Climex (enlace compartido por Tony, entidad /g/12qg744fj)
+  googleReviewsUrl: 'https://www.google.com/search?kgmid=%2Fg%2F12qg744fj&q=Climex+Soluciones+Integrales+Guadalajara',
   phones: {
     // Teléfono de contacto (llamadas)
     main: { display: '33 1769 9999', e164: '+523317699999' },
@@ -48,16 +49,21 @@ export const site = {
     'Tlajomulco de Zúñiga',
     'El Salto',
   ],
+  guarantees: {
+    installation: '90 días',
+    maintenance: '30 días',
+    equipment: 'Garantía de fábrica según el fabricante',
+  },
+  // Si una marca no tiene archivo de logo, se muestra su nombre en texto.
   brands: [
     { name: 'Mirage', logo: '/images/Mirage.png' },
-    { name: 'Carrier', logo: '/images/Carrier.png' },
     { name: 'York', logo: '/images/York.png' },
     { name: 'Trane', logo: '/images/Trane.png' },
+    { name: 'Carrier', logo: '/images/Carrier.png' },
+    { name: 'Prime', logo: '' },
     { name: 'Lennox', logo: '/images/Lennox.png' },
     { name: 'Hisense', logo: '/images/Hisense.png' },
-    { name: 'Honeywell', logo: '/images/Honeywell.png' },
-    { name: 'Danfoss', logo: '/images/Danfoss.png' },
-  ],
+  ] as { name: string; logo: string }[],
   social: {
     // Agrega las URLs reales cuando existan; si quedan vacías no se muestran.
     facebook: '',

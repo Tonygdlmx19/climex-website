@@ -13,13 +13,19 @@ export default function Brands() {
           <ul className="flex w-max animate-marquee items-center gap-14 motion-reduce:animate-none motion-reduce:flex-wrap motion-reduce:justify-center">
             {logos.map((b, i) => (
               <li key={`${b.name}-${i}`} className="shrink-0" aria-hidden={i >= site.brands.length}>
-                <Image
-                  src={b.logo}
-                  alt={i < site.brands.length ? b.name : ''}
-                  width={140}
-                  height={56}
-                  className="h-10 w-auto object-contain opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0 md:h-12"
-                />
+                {b.logo ? (
+                  <Image
+                    src={b.logo}
+                    alt={i < site.brands.length ? b.name : ''}
+                    width={140}
+                    height={56}
+                    className="h-10 w-auto object-contain opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0 md:h-12"
+                  />
+                ) : (
+                  <span className="block text-2xl font-extrabold uppercase tracking-[0.12em] text-slate-500 transition hover:text-navy-700 md:text-3xl">
+                    {b.name}
+                  </span>
+                )}
               </li>
             ))}
           </ul>

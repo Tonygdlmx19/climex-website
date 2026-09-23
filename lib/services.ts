@@ -34,6 +34,7 @@ export const services: Service[] = [
           'Mayor vida útil del equipo',
           'Menor consumo de energía',
           'Mejor calidad del aire',
+          '30 días de garantía en el servicio',
           'Pólizas de mantenimiento para empresas',
         ],
       },
@@ -94,7 +95,7 @@ export const services: Service[] = [
         items: [
           'Un solo proveedor para todo',
           'Instalación limpia y profesional',
-          'Garantía de un año en mano de obra',
+          '90 días de garantía en la instalación',
         ],
       },
     ],
@@ -110,7 +111,7 @@ export const services: Service[] = [
     includes: [
       {
         title: 'Marcas',
-        items: ['Mirage', 'Carrier', 'York', 'Trane', 'Lennox', 'Hisense', 'LG', 'Comfort Star'],
+        items: ['Mirage', 'York', 'Trane', 'Carrier', 'Prime', 'Lennox', 'Hisense'],
       },
       {
         title: 'Tipos de equipo',
@@ -124,7 +125,7 @@ export const services: Service[] = [
       },
       {
         title: 'Incluye',
-        items: ['Asesoría para elegir la capacidad correcta', 'Instalación profesional opcional', 'Servicio posventa y refacciones'],
+        items: ['Asesoría para elegir la capacidad correcta', 'Instalación profesional opcional', 'Garantía de fábrica según el fabricante', 'Servicio posventa y refacciones'],
       },
     ],
     outro: 'Te ayudamos a encontrar el equipo correcto para tu espacio y presupuesto.',
@@ -146,6 +147,7 @@ export const services: Service[] = [
           'Presupuesto detallado',
           'Planos y especificaciones',
           'Instalación, ductos, difusores y control',
+          'Revisión y diagnóstico de sistemas VRF',
         ],
       },
       {
