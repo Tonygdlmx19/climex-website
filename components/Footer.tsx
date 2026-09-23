@@ -27,8 +27,8 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
           <div>
             <Link href="/" className="inline-flex items-center gap-3">
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white">
-                <Image src="/images/logoClimex.png" alt="" width={40} height={40} className="h-10 w-10 object-contain" />
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white p-1">
+                <Image src="/images/logo-globo.png" alt="" width={44} height={44} className="h-10 w-10 object-contain" />
               </span>
               <span className="leading-tight">
                 <span className="block text-lg font-extrabold text-white">CLIMEX</span>

@@ -17,9 +17,9 @@ export default function Brands() {
                   <Image
                     src={b.logo}
                     alt={i < site.brands.length ? b.name : ''}
-                    width={140}
-                    height={56}
-                    className="h-10 w-auto object-contain opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0 md:h-12"
+                    width={160}
+                    height={64}
+                    className="h-8 w-auto max-w-[150px] object-contain md:h-10 md:max-w-[180px]"
                   />
                 ) : (
                   <span className="block text-2xl font-extrabold uppercase tracking-[0.12em] text-slate-500 transition hover:text-navy-700 md:text-3xl">

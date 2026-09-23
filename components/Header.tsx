@@ -70,12 +70,12 @@ export default function Header() {
       <nav className="container flex h-[72px] items-center justify-between gap-4" aria-label="Principal">
         <Link href="/" className="flex shrink-0 items-center gap-3" aria-label={`${site.name}, inicio`}>
           <Image
-            src="/images/logoClimex.png"
+            src="/images/logo-globo.png"
             alt=""
-            width={56}
-            height={56}
+            width={48}
+            height={48}
             priority
-            className="h-12 w-12 object-contain"
+            className="h-11 w-11 object-contain"
           />
           <span className="hidden leading-tight sm:block">
             <span className="block text-[17px] font-extrabold tracking-tight text-brand-600">CLIMEX</span>

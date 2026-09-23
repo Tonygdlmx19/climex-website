@@ -54,15 +54,16 @@ export const site = {
     maintenance: '30 días',
     equipment: 'Garantía de fábrica según el fabricante',
   },
+  // Logos en public/images/brands (PNG con fondo transparente, sin márgenes).
   // Si una marca no tiene archivo de logo, se muestra su nombre en texto.
   brands: [
-    { name: 'Mirage', logo: '/images/Mirage.png' },
-    { name: 'York', logo: '/images/York.png' },
-    { name: 'Trane', logo: '/images/Trane.png' },
-    { name: 'Carrier', logo: '/images/Carrier.png' },
-    { name: 'Prime', logo: '' },
-    { name: 'Lennox', logo: '/images/Lennox.png' },
-    { name: 'Hisense', logo: '/images/Hisense.png' },
+    { name: 'Mirage', logo: '/images/brands/mirage.png' },
+    { name: 'York', logo: '/images/brands/york.png' },
+    { name: 'Trane', logo: '/images/brands/trane.png' },
+    { name: 'Carrier', logo: '/images/brands/carrier.png' },
+    { name: 'Prime', logo: '/images/brands/prime.png' },
+    { name: 'Lennox', logo: '/images/brands/lennox.png' },
+    { name: 'Hisense', logo: '/images/brands/hisense.png' },
   ] as { name: string; logo: string }[],
   social: {
     // Agrega las URLs reales cuando existan; si quedan vacías no se muestran.
