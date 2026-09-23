@@ -69,10 +69,7 @@ export default function Hero() {
               sizes="(min-width: 1024px) 48vw, 100vw"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy-900/40 via-transparent to-transparent" aria-hidden="true" />
-            <p className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1.5 text-xs font-bold text-navy-700 backdrop-blur">
-              Servicio a domicilio en {site.coverage.slice(0, 4).join(', ')}
-            </p>
+            <div className="absolute inset-0 bg-gradient-to-t from-navy-900/30 via-transparent to-transparent" aria-hidden="true" />
           </div>
 
           <div className="card absolute -bottom-6 -left-3 flex items-center gap-4 px-5 py-4 sm:-left-8">

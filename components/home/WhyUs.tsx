@@ -5,14 +5,14 @@ import SectionHeading from '@/components/ui/SectionHeading'
 import CountUp from '@/components/ui/CountUp'
 
 const stats = [
-  { value: site.yearsExperience, prefix: '', suffix: ' años', decimals: 0, label: 'de experiencia en Guadalajara' },
+  { value: site.yearsExperience, prefix: '', suffix: ' años', decimals: 0, label: 'en la industria del aire acondicionado' },
   { value: site.happyClients, prefix: '+', suffix: '', decimals: 0, label: 'clientes atendidos' },
   { value: site.googleRating, prefix: '', suffix: ' ★', decimals: 1, label: 'calificación en Google' },
   { value: 90, prefix: '', suffix: ' días', decimals: 0, label: 'de garantía en instalación' },
 ]
 
 const features = [
-  { icon: Award, title: 'Experiencia comprobada', text: `${site.yearsExperience} años de trayectoria en la zona metropolitana.` },
+  { icon: Award, title: 'Experiencia comprobada', text: `${site.yearsExperience} años en la industria del aire acondicionado.` },
   { icon: ShieldCheck, title: 'Garantía por escrito', text: '90 días en instalación, 30 días en mantenimiento y garantía de fábrica en equipos.' },
   { icon: Users, title: 'Técnicos certificados', text: 'Personal capacitado en las principales marcas.' },
   { icon: Clock, title: 'Respuesta rápida', text: 'Atendemos y programamos visitas el mismo día o al siguiente.' },
