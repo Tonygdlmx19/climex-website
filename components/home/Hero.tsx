@@ -16,8 +16,8 @@ export default function Hero() {
           </span>
 
           <h1 className="mt-5 text-4xl font-extrabold leading-[1.08] text-ink sm:text-5xl lg:text-[3.4rem]">
-            Aire acondicionado en Guadalajara,{' '}
-            <span className="text-brand-600">bien instalado y con garantía.</span>
+            Servicio técnico profesional en{' '}
+            <span className="text-brand-600">aire acondicionado industrial y residencial.</span>
           </h1>
 
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
