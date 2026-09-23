@@ -2,12 +2,13 @@ import Image from 'next/image'
 import { Award, ShieldCheck, Users, Clock, Wrench, BadgeDollarSign, Target, Eye } from 'lucide-react'
 import { site } from '@/lib/site'
 import SectionHeading from '@/components/ui/SectionHeading'
+import CountUp from '@/components/ui/CountUp'
 
 const stats = [
-  { value: `${site.yearsExperience}`, suffix: ' años', label: 'de experiencia en Guadalajara' },
-  { value: `+${site.happyClients}`, suffix: '', label: 'clientes atendidos' },
-  { value: `${site.googleRating}`, suffix: ' ★', label: 'calificación en Google' },
-  { value: '90', suffix: ' días', label: 'de garantía en instalación' },
+  { value: site.yearsExperience, prefix: '', suffix: ' años', decimals: 0, label: 'de experiencia en Guadalajara' },
+  { value: site.happyClients, prefix: '+', suffix: '', decimals: 0, label: 'clientes atendidos' },
+  { value: site.googleRating, prefix: '', suffix: ' ★', decimals: 1, label: 'calificación en Google' },
+  { value: 90, prefix: '', suffix: ' días', decimals: 0, label: 'de garantía en instalación' },
 ]
 
 const features = [
@@ -48,9 +49,10 @@ export default function WhyUs() {
 
           <div className="relative">
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
+              {/* Cambia esta imagen por /images/equipo-climex.jpg cuando la tengas */}
               <Image
-                src="/images/mantenimiento.png"
-                alt="Técnico de Climex dando mantenimiento a un minisplit"
+                src="/trabajos/01-tablero-unidad-paquete.jpg"
+                alt="Técnico de Climex trabajando en el tablero eléctrico de una unidad tipo paquete"
                 fill
                 sizes="(min-width: 1024px) 45vw, 100vw"
                 className="object-cover"
@@ -61,7 +63,7 @@ export default function WhyUs() {
                 <div key={s.label} className="bg-white px-5 py-4">
                   <dt className="order-2 text-xs font-semibold text-slate-500">{s.label}</dt>
                   <dd className="tabular text-2xl font-extrabold text-navy-700">
-                    {s.value}
+                    <CountUp value={s.value} prefix={s.prefix} decimals={s.decimals} />
                     <span className="text-base font-bold text-brand-600">{s.suffix}</span>
                   </dd>
                 </div>

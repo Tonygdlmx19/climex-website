@@ -147,9 +147,7 @@ export default function Gallery({
               sizes="100vw"
               className="max-h-[82vh] w-auto rounded-xl object-contain"
             />
-            <figcaption className="tabular mt-3 text-center text-sm text-navy-100">
-              {items[index].alt} · {index + 1} / {items.length}
-            </figcaption>
+            <figcaption className="sr-only">{items[index].alt}</figcaption>
           </figure>
         </div>
       )}
