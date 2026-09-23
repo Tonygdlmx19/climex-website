@@ -62,8 +62,8 @@ export default function Hero() {
         <div className="relative animate-rise [animation-delay:120ms]">
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgba(15,27,51,.45)] lg:aspect-[5/4]">
             <Image
-              src="/images/hero.png"
-              alt="Familia disfrutando el aire acondicionado en su sala"
+              src="/images/portada.jpg"
+              alt="Técnicos de Climex frente a su camioneta junto a un minisplit recién instalado"
               fill
               priority
               sizes="(min-width: 1024px) 48vw, 100vw"

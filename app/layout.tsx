@@ -37,13 +37,13 @@ export const metadata: Metadata = {
     locale: 'es_MX',
     url: site.url,
     siteName: site.name,
-    images: [{ url: '/images/hero.png', width: 2049, height: 1152, alt: site.name }],
+    images: [{ url: '/images/portada.jpg', width: 1800, height: 1450, alt: site.name }],
   },
   twitter: {
     card: 'summary_large_image',
     title: site.name,
     description: site.description,
-    images: ['/images/hero.png'],
+    images: ['/images/portada.jpg'],
   },
   robots: { index: true, follow: true },
 }
