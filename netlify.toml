@@ -4,3 +4,17 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+# Dominio anterior (Jimdo): cuando climexsi.com.mx apunte a Netlify, todo su
+# tráfico se redirige con 301 al dominio nuevo conservando la ruta.
+[[redirects]]
+  from = "https://climexsi.com.mx/*"
+  to = "https://climexsi.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.climexsi.com.mx/*"
+  to = "https://climexsi.com/:splat"
+  status = 301
+  force = true
