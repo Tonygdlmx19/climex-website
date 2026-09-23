@@ -7,6 +7,8 @@ import Gallery from '@/components/home/Gallery'
 import Testimonials from '@/components/home/Testimonials'
 import Coverage from '@/components/home/Coverage'
 import Contact from '@/components/home/Contact'
+import FAQ from '@/components/FAQ'
+import { faqs } from '@/lib/faq'
 
 export default function Home() {
   return (
@@ -19,6 +21,7 @@ export default function Home() {
       <Gallery />
       <Testimonials />
       <Coverage />
+      <FAQ items={faqs.general} description="Lo que más nos preguntan sobre mantenimiento, reparación e instalación de aire acondicionado en Guadalajara." />
       <Contact />
     </>
   )

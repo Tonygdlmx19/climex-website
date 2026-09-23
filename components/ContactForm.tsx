@@ -13,8 +13,8 @@ const initial = { nombre: '', telefono: '', email: '', servicio: '', mensaje: ''
  * Formulario de cotización. Se envía a Netlify Forms (ver public/__forms.html)
  * y ofrece como alternativa mandar el mismo mensaje por WhatsApp.
  */
-export default function ContactForm({ compact = false }: { compact?: boolean }) {
-  const [data, setData] = useState(initial)
+export default function ContactForm({ compact = false, defaultService = '' }: { compact?: boolean; defaultService?: string }) {
+  const [data, setData] = useState({ ...initial, servicio: defaultService })
   const [status, setStatus] = useState<Status>('idle')
 
   const set = (k: keyof typeof initial) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>

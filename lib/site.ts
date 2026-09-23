@@ -12,7 +12,8 @@ export const site = {
   yearsExperience: 18,
   foundedYear: 2008,
   happyClients: 830,
-  googleRating: 4.8,
+  googleRating: 4.5,
+  googleReviewCount: 44,
   // Ficha de Google de Climex (enlace compartido por Tony, entidad /g/12qg744fj)
   googleReviewsUrl: 'https://www.google.com/search?kgmid=%2Fg%2F12qg744fj&q=Climex+Soluciones+Integrales+Guadalajara',
   phones: {

@@ -5,6 +5,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
+import MobileBar from '@/components/MobileBar'
 import { site } from '@/lib/site'
 
 const manrope = Manrope({
@@ -89,7 +90,7 @@ const jsonLd = {
     '@type': 'AggregateRating',
     ratingValue: site.googleRating,
     bestRating: 5,
-    ratingCount: 60,
+    ratingCount: site.googleReviewCount,
   },
   makesOffer: [
     'Instalación de aire acondicionado',
@@ -102,7 +103,7 @@ const jsonLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es-MX" className={manrope.variable}>
-      <body className="font-sans">
+      <body className="font-sans pb-[calc(4rem+env(safe-area-inset-bottom))] sm:pb-0">
         <a
           href="#contenido"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-navy-600 focus:px-4 focus:py-2 focus:text-white"
@@ -113,6 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="contenido">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <MobileBar />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

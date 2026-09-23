@@ -3,11 +3,12 @@ import Link from 'next/link'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import { site, whatsappUrl } from '@/lib/site'
 import TrackedLink from '@/components/TrackedLink'
+import { serviceHref } from '@/lib/landings'
 
 const servicios = [
-  { name: 'Instalación', href: '/servicios#instalacion' },
-  { name: 'Mantenimiento', href: '/servicios#mantenimiento' },
-  { name: 'Reparación', href: '/servicios#reparacion' },
+  { name: 'Instalación', href: serviceHref('instalacion') },
+  { name: 'Mantenimiento', href: serviceHref('mantenimiento') },
+  { name: 'Reparación', href: serviceHref('reparacion') },
   { name: 'Venta de equipos', href: '/servicios#venta' },
   { name: 'Proyectos comerciales', href: '/servicios#proyectos' },
 ]
@@ -16,6 +17,7 @@ const empresa = [
   { name: 'Nosotros', href: '/nosotros' },
   { name: 'Trabajos realizados', href: '/proyectos' },
   { name: 'Opiniones', href: '/#opiniones' },
+  { name: 'Preguntas frecuentes', href: '/#preguntas' },
   { name: 'Contacto', href: '/contacto' },
   { name: 'Aviso de privacidad', href: '/privacidad' },
 ]

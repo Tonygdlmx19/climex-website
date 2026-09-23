@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Check, MessageCircle } from 'lucide-react'
+import { Check, MessageCircle, ArrowRight } from 'lucide-react'
 import PageHero from '@/components/ui/PageHero'
 import CTABand from '@/components/CTABand'
 import TrackedLink from '@/components/TrackedLink'
 import { services } from '@/lib/services'
 import { whatsappUrl } from '@/lib/site'
+import { landings } from '@/lib/landings'
 
 export const metadata: Metadata = {
   title: 'Servicios de aire acondicionado en Guadalajara',
@@ -83,6 +84,15 @@ export default function ServiciosPage() {
                   Solicitar cotización
                 </Link>
               </div>
+              {landings.some((l) => l.service.id === s.id) && (
+                <Link
+                  href={`/${landings.find((l) => l.service.id === s.id)!.slug}`}
+                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-brand-600 hover:text-brand-700"
+                >
+                  Más sobre {s.title.toLowerCase()} en Guadalajara
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              )}
             </div>
           </article>
         ))}

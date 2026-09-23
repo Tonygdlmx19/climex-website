@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowRight, X, Check, MessageCircle } from 'lucide-react'
 import { services, type Service } from '@/lib/services'
 import { whatsappUrl } from '@/lib/site'
+import { serviceHref } from '@/lib/landings'
 import SectionHeading from '@/components/ui/SectionHeading'
 import TrackedLink from '@/components/TrackedLink'
 
@@ -45,7 +46,7 @@ export default function Services() {
                     Ver detalles
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                   </button>
-                  <Link href={`/servicios#${s.id}`} className="text-xs font-semibold text-slate-400 hover:text-ink">
+                  <Link href={serviceHref(s.id)} className="text-xs font-semibold text-slate-400 hover:text-ink">
                     Página del servicio
                   </Link>
                 </div>
