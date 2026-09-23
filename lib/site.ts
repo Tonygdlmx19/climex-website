@@ -25,7 +25,7 @@ export const site = {
     defaultMessage:
       'Hola Climex, me gustaría cotizar un servicio de aire acondicionado.',
   },
-  email: 'ventas@climexsi.com',
+  email: 'administracion@climexsi.com',
   address: {
     street: 'Calle Válvula #5986-A',
     neighborhood: 'Col. Álamo Industrial',

@@ -29,7 +29,7 @@ Node 20 (ver `.nvmrc`).
 El formulario `cotizacion` se envía a Netlify Forms. Para que Netlify lo detecte existe
 `public/__forms.html` con los mismos campos que `components/ContactForm.tsx`. Si agregas un campo
 nuevo, agrégalo en los dos lugares. Las respuestas llegan a **Netlify → Forms**; ahí puedes activar
-notificaciones por correo a `ventas@climexsi.com`.
+notificaciones por correo a `administracion@climexsi.com`.
 
 Además, cada formulario ofrece "Enviar por WhatsApp" con los datos ya escritos.
 
