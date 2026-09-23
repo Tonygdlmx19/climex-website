@@ -1,133 +1,129 @@
+import Image from 'next/image'
 import Link from 'next/link'
-import { Phone, Mail, MapPin, Clock, Facebook, Instagram } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock } from 'lucide-react'
+import { site, whatsappUrl } from '@/lib/site'
+import TrackedLink from '@/components/TrackedLink'
 
-const navigation = {
-  servicios: [
-    { name: 'Instalacion', href: '/servicios#instalacion' },
-    { name: 'Mantenimiento', href: '/servicios#mantenimiento' },
-    { name: 'Reparacion', href: '/servicios#reparacion' },
-    { name: 'Proyectos Especiales', href: '/servicios#proyectos' },
-  ],
-  empresa: [
-    { name: 'Nosotros', href: '/nosotros' },
-    { name: 'Proyectos', href: '/proyectos' },
-    { name: 'Garantias', href: '/nosotros#garantias' },
-    { name: 'Contacto', href: '/contacto' },
-  ],
-}
+const servicios = [
+  { name: 'Instalación', href: '/servicios#instalacion' },
+  { name: 'Mantenimiento', href: '/servicios#mantenimiento' },
+  { name: 'Reparación', href: '/servicios#reparacion' },
+  { name: 'Venta de equipos', href: '/servicios#venta' },
+  { name: 'Proyectos comerciales', href: '/servicios#proyectos' },
+]
+
+const empresa = [
+  { name: 'Nosotros', href: '/nosotros' },
+  { name: 'Trabajos realizados', href: '/proyectos' },
+  { name: 'Opiniones', href: '/#opiniones' },
+  { name: 'Contacto', href: '/contacto' },
+  { name: 'Aviso de privacidad', href: '/privacidad' },
+]
 
 export default function Footer() {
   return (
-    <footer className="bg-neutral-dark text-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">C</span>
-              </div>
-              <div>
-                <span className="text-xl font-bold">Climex</span>
-                <span className="block text-xs text-gray-400">Soluciones Integrales</span>
-              </div>
-            </div>
-            <p className="text-gray-400 text-sm mb-6">
-              Expertos en climatizacion con mas de 8 anos de experiencia en Guadalajara y zona metropolitana.
+    <footer className="bg-navy-900 text-navy-100">
+      <div className="container py-14 lg:py-16">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
+          <div>
+            <Link href="/" className="inline-flex items-center gap-3">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white">
+                <Image src="/images/logoClimex.png" alt="" width={40} height={40} className="h-10 w-10 object-contain" />
+              </span>
+              <span className="leading-tight">
+                <span className="block text-lg font-extrabold text-white">CLIMEX</span>
+                <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-brand-300">
+                  Soluciones Integrales
+                </span>
+              </span>
+            </Link>
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-navy-200">
+              {site.yearsExperience} años instalando, manteniendo y reparando aire acondicionado en
+              Guadalajara y su zona metropolitana. Servicio residencial, comercial e industrial.
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-            </div>
+            <p className="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-navy-300">
+              Cobertura
+            </p>
+            <p className="mt-1 text-sm text-navy-200">{site.coverage.join(' · ')}</p>
           </div>
 
-          {/* Servicios */}
           <div>
-            <h3 className="text-sm font-semibold mb-4">Servicios</h3>
-            <ul className="space-y-3">
-              {navigation.servicios.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-gray-400 hover:text-white text-sm transition-colors"
-                  >
-                    {item.name}
+            <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-white">Servicios</h3>
+            <ul className="mt-4 space-y-2.5">
+              {servicios.map((i) => (
+                <li key={i.href}>
+                  <Link href={i.href} className="text-sm text-navy-200 transition-colors hover:text-white">
+                    {i.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Empresa */}
           <div>
-            <h3 className="text-sm font-semibold mb-4">Empresa</h3>
-            <ul className="space-y-3">
-              {navigation.empresa.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-gray-400 hover:text-white text-sm transition-colors"
-                  >
-                    {item.name}
+            <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-white">Empresa</h3>
+            <ul className="mt-4 space-y-2.5">
+              {empresa.map((i) => (
+                <li key={i.href}>
+                  <Link href={i.href} className="text-sm text-navy-200 transition-colors hover:text-white">
+                    {i.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contacto */}
           <div>
-            <h3 className="text-sm font-semibold mb-4">Contacto</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-primary-light flex-shrink-0 mt-0.5" />
-                <span className="text-gray-400 text-sm">
-                  Calle Valvula #5986-A<br />
-                  Guadalajara, Jalisco
+            <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-white">Contacto</h3>
+            <ul className="mt-4 space-y-3 text-sm">
+              <li className="flex gap-3">
+                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand-300" aria-hidden="true" />
+                <span className="flex flex-col">
+                  <TrackedLink event="contact_call" href={`tel:${site.phones.main.e164}`} className="tabular text-white hover:text-brand-200">
+                    {site.phones.main.display}
+                  </TrackedLink>
+                  <TrackedLink
+                    event="contact_whatsapp"
+                    href={whatsappUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="tabular text-navy-200 hover:text-white"
+                  >
+                    WhatsApp {site.whatsapp.display}
+                  </TrackedLink>
                 </span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-primary-light flex-shrink-0" />
-                <a href="tel:+523316145522" className="text-gray-400 hover:text-white text-sm transition-colors">
-                  33 1614 5522
+              <li className="flex gap-3">
+                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand-300" aria-hidden="true" />
+                <TrackedLink event="contact_email" href={`mailto:${site.email}`} className="text-navy-200 hover:text-white">
+                  {site.email}
+                </TrackedLink>
+              </li>
+              <li className="flex gap-3">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-300" aria-hidden="true" />
+                <a href={site.address.mapsUrl} target="_blank" rel="noopener noreferrer" className="text-navy-200 hover:text-white">
+                  {site.address.street}, {site.address.neighborhood}
+                  <br />
+                  {site.address.city}, {site.address.state}
                 </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-primary-light flex-shrink-0" />
-                <a href="tel:+523324568104" className="text-gray-400 hover:text-white text-sm transition-colors">
-                  33 2456 8104
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-primary-light flex-shrink-0" />
-                <a href="mailto:contacto@climexsi.com.mx" className="text-gray-400 hover:text-white text-sm transition-colors">
-                  contacto@climexsi.com.mx
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-primary-light flex-shrink-0" />
-                <span className="text-gray-400 text-sm">Lun - Sab: 9:00 - 18:00</span>
+              <li className="flex gap-3">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-brand-300" aria-hidden="true" />
+                <span className="text-navy-200">
+                  {site.hours.map((h) => (
+                    <span key={h.days} className="block">
+                      {h.days}: <span className="tabular">{h.time}</span>
+                    </span>
+                  ))}
+                </span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="border-t border-gray-800 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} Climex Soluciones Integrales. Todos los derechos reservados.
-            </p>
-            <div className="flex gap-6">
-              <Link href="/privacidad" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Aviso de Privacidad
-              </Link>
-            </div>
-          </div>
+        <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 text-xs text-navy-300 sm:flex-row sm:items-center">
+          <p>© {new Date().getFullYear()} {site.name}. Todos los derechos reservados.</p>
+          <p>Guadalajara, Jalisco, México</p>
         </div>
       </div>
     </footer>

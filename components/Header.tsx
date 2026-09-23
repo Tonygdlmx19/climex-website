@@ -1,202 +1,181 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { Menu, X, Phone, Mail, Facebook, Instagram } from 'lucide-react'
-
-const navigation = [
-  { name: 'Inicio', href: '#inicio' },
-  { name: 'Servicios', href: '#servicios' },
-  { name: 'Misión y Visión', href: '#mision-vision' },
-  { name: 'Nosotros', href: '#nosotros' },
-  { name: 'Proyectos', href: '#proyectos' },
-  { name: 'Contacto', href: '#contacto' },
-]
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Menu, X, Phone, MessageCircle } from 'lucide-react'
+import { navigation, site, whatsappUrl } from '@/lib/site'
+import { track } from '@/lib/analytics'
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState('inicio')
+  const [active, setActive] = useState('')
+  const pathname = usePathname()
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-
-      // Detect active section
-      const sections = navigation.map(item => item.href.replace('#', ''))
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          if (rect.top <= 100) {
-            setActiveSection(section)
-            break
-          }
-        }
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
-    const targetId = href.replace('#', '')
-    const element = document.getElementById(targetId)
-    if (element) {
-      const offsetTop = element.offsetTop - 120
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-      })
+  // Resalta la sección visible en la página de inicio
+  useEffect(() => {
+    if (pathname !== '/') {
+      setActive(pathname)
+      return
     }
-    setMobileMenuOpen(false)
-  }
+    const ids = navigation
+      .map((n) => n.href.split('#')[1])
+      .filter((id): id is string => Boolean(id))
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
+    if (!els.length) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (visible) setActive(`/#${visible.target.id}`)
+      },
+      { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.2, 0.5] }
+    )
+    els.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [pathname])
+
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
+
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' && (active === '' || active === '/') : active === href
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-300 ${
-      scrolled ? 'shadow-lg' : 'shadow-md'
-    }`}>
-      {/* Top bar - Contact Info */}
-      <div className="bg-primary">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-2 text-xs font-medium text-white">
-            <div className="flex items-center gap-6">
-              <a href="tel:+523328000443" className="flex items-center gap-2 hover:text-white/80 transition-colors">
-                <Phone className="h-4 w-4" />
-                <span>33 2800 0443</span>
-              </a>
-              <a href="mailto:ventas@climexsi.com" className="flex items-center gap-2 hover:text-white/80 transition-colors">
-                <Mail className="h-4 w-4" />
-                <span>ventas@climexsi.com</span>
-              </a>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="hidden sm:inline text-white/80 text-xs">Síguenos:</span>
-              <a href="#" className="rounded-full p-1.5 bg-white/10 hover:bg-white/20 transition-colors">
-                <Facebook className="h-4 w-4" />
-              </a>
-              <a href="#" className="rounded-full p-1.5 bg-white/10 hover:bg-white/20 transition-colors">
-                <Instagram className="h-4 w-4" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+    <header
+      className={`sticky top-0 z-50 border-b transition-[box-shadow,background-color,border-color] duration-300 ${
+        scrolled
+          ? 'border-line/80 bg-white/90 shadow-[0_4px_24px_-12px_rgba(15,27,51,.18)] backdrop-blur-md'
+          : 'border-transparent bg-white'
+      }`}
+    >
+      <nav className="container flex h-[72px] items-center justify-between gap-4" aria-label="Principal">
+        <Link href="/" className="flex shrink-0 items-center gap-3" aria-label={`${site.name}, inicio`}>
+          <Image
+            src="/images/logoClimex.png"
+            alt=""
+            width={56}
+            height={56}
+            priority
+            className="h-12 w-12 object-contain"
+          />
+          <span className="hidden leading-tight sm:block">
+            <span className="block text-[17px] font-extrabold tracking-tight text-brand-600">CLIMEX</span>
+            <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-navy-600">
+              Soluciones Integrales
+            </span>
+          </span>
+        </Link>
 
-      {/* Main navigation */}
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
-        <div className="flex items-center justify-between py-3">
-          {/* Logo - 160px */}
-          <div className="flex items-center">
-            <a
-              href="#inicio"
-              onClick={(e) => handleNavClick(e, '#inicio')}
-              className="flex items-center gap-4 group"
-            >
-              <Image
-                src="/images/logoClimex.png"
-                alt="Climex Logo"
-                width={160}
-                height={160}
-                className="h-24 w-24 object-contain transition-transform group-hover:scale-105"
-              />
-              <div className="hidden sm:block">
-                <span className="text-2xl font-bold text-primary">
-                  Climex
-                </span>
-                <span className="block text-sm text-gray-500">
-                  Soluciones Integrales
-                </span>
-              </div>
-            </a>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex lg:items-center lg:gap-1">
-            {navigation.map((item) => (
-              <a
-                key={item.name}
+        <ul className="hidden items-center gap-1 lg:flex">
+          {navigation.map((item) => (
+            <li key={item.href}>
+              <Link
                 href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-                className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-full ${
-                  activeSection === item.href.replace('#', '')
-                    ? 'text-white bg-primary'
-                    : 'text-gray-700 hover:text-primary hover:bg-primary/10'
+                className={`rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${
+                  isActive(item.href)
+                    ? 'bg-navy-50 text-navy-700'
+                    : 'text-slate-600 hover:bg-mist hover:text-ink'
                 }`}
               >
                 {item.name}
-              </a>
-            ))}
-          </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
 
-          {/* CTA Button */}
-          <div className="hidden lg:flex lg:items-center lg:gap-4">
-            <a
-              href="tel:+523316145522"
-              className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors"
-            >
-              <Phone className="w-4 h-4" />
-              33 1614 5522
-            </a>
-            <a
-              href="#contacto"
-              onClick={(e) => handleNavClick(e, '#contacto')}
-              className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-primary-dark transition-all hover:shadow-primary/30 hover:-translate-y-0.5"
-            >
-              Cotiza Gratis
-            </a>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-full p-2.5 text-gray-700 hover:bg-gray-100 transition-colors"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              <span className="sr-only">Abrir menu</span>
-              {mobileMenuOpen ? (
-                <X className="h-6 w-6" aria-hidden="true" />
-              ) : (
-                <Menu className="h-6 w-6" aria-hidden="true" />
-              )}
-            </button>
-          </div>
+        <div className="hidden items-center gap-2 lg:flex">
+          <a
+            href={`tel:${site.phones.main.e164}`}
+            onClick={() => track('contact_call', { location: 'header' })}
+            className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-bold text-navy-700 hover:bg-navy-50"
+          >
+            <Phone className="h-4 w-4" aria-hidden="true" />
+            <span className="tabular">{site.phones.main.display}</span>
+          </a>
+          <a
+            href={whatsappUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => track('contact_whatsapp', { location: 'header' })}
+            className="btn-primary px-5 py-2.5"
+          >
+            <MessageCircle className="h-4 w-4" aria-hidden="true" />
+            Cotiza gratis
+          </a>
         </div>
 
-        {/* Mobile menu */}
-        <div className={`lg:hidden overflow-hidden transition-all duration-300 ${
-          mobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
-        }`}>
-          <div className="pb-6 pt-4 bg-white rounded-2xl mt-2 border border-gray-100 shadow-lg">
-            <div className="space-y-1 px-4">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className={`block rounded-xl px-4 py-3 text-base font-medium transition-colors ${
-                    activeSection === item.href.replace('#', '')
-                      ? 'text-white bg-primary'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  {item.name}
-                </a>
-              ))}
-              <a
-                href="#contacto"
-                onClick={(e) => handleNavClick(e, '#contacto')}
-                className="block rounded-xl bg-primary px-4 py-3 text-center text-base font-semibold text-white mt-4"
-              >
-                Cotiza Gratis
-              </a>
-            </div>
-          </div>
-        </div>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="menu-movil"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink hover:bg-mist lg:hidden"
+        >
+          <span className="sr-only">{open ? 'Cerrar menú' : 'Abrir menú'}</span>
+          {open ? <X className="h-6 w-6" aria-hidden="true" /> : <Menu className="h-6 w-6" aria-hidden="true" />}
+        </button>
       </nav>
+
+      {/* Menú móvil */}
+      <div
+        id="menu-movil"
+        hidden={!open}
+        className="border-t border-line bg-white lg:hidden"
+      >
+        <div className="container flex flex-col gap-1 py-4">
+          {navigation.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className={`rounded-xl px-4 py-3 text-base font-semibold ${
+                isActive(item.href) ? 'bg-navy-50 text-navy-700' : 'text-ink hover:bg-mist'
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <a
+              href={`tel:${site.phones.main.e164}`}
+              onClick={() => track('contact_call', { location: 'menu' })}
+              className="btn-outline"
+            >
+              <Phone className="h-4 w-4" aria-hidden="true" />
+              Llamar
+            </a>
+            <a
+              href={whatsappUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => track('contact_whatsapp', { location: 'menu' })}
+              className="btn-whatsapp"
+            >
+              <MessageCircle className="h-4 w-4" aria-hidden="true" />
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
     </header>
   )
 }

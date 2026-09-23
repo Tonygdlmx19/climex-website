@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Formularios Netlify</title></head>
+  <body>
+    <!--
+      Archivo estático que Netlify usa para detectar el formulario en tiempo de build.
+      Debe tener los mismos campos que components/ContactForm.tsx.
+    -->
+    <form name="cotizacion" data-netlify="true" netlify-honeypot="bot-field" method="POST" action="/">
+      <input type="hidden" name="form-name" value="cotizacion" />
+      <input name="bot-field" />
+      <input name="nombre" type="text" />
+      <input name="telefono" type="tel" />
+      <input name="email" type="email" />
+      <select name="servicio"><option value=""></option></select>
+      <textarea name="mensaje"></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </body>
+</html>

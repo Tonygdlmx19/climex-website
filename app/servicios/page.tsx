@@ -1,41 +1,94 @@
-import { Metadata } from 'next'
-import CTASection from '@/components/CTASection'
-import ServicesContent from './ServicesContent'
+import type { Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Check, MessageCircle } from 'lucide-react'
+import PageHero from '@/components/ui/PageHero'
+import CTABand from '@/components/CTABand'
+import TrackedLink from '@/components/TrackedLink'
+import { services } from '@/lib/services'
+import { whatsappUrl } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Servicios | Climex Soluciones Integrales',
-  description: 'Servicios de instalación, mantenimiento y reparación de aires acondicionados en Guadalajara. Cotización gratuita.',
+  title: 'Servicios de aire acondicionado en Guadalajara',
+  description:
+    'Instalación, mantenimiento, reparación y venta de aire acondicionado en Guadalajara. Proyectos comerciales e industriales. Cotización gratis.',
+  alternates: { canonical: '/servicios' },
 }
 
 export default function ServiciosPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative bg-gradient-to-br from-primary to-primary-dark pt-32 pb-20 overflow-hidden">
-        {/* Background pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }} />
-        </div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
+      <PageHero
+        eyebrow="Servicios"
+        title="Servicios de aire acondicionado en Guadalajara"
+        description="Residencial, comercial e industrial. Todas las marcas, técnicos certificados y garantía por escrito."
+        crumbs={[{ name: 'Servicios' }]}
+      />
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block text-accent font-semibold text-sm uppercase tracking-wider mb-3">
-            Soluciones profesionales
-          </span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            Nuestros Servicios
-          </h1>
-          <p className="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto">
-            Soluciones completas en climatización para tu hogar y negocio con garantía y profesionalismo
-          </p>
-        </div>
-      </section>
+      <nav aria-label="Servicios" className="sticky top-[72px] z-30 border-b border-line bg-white/90 backdrop-blur">
+        <ul className="container flex gap-1 overflow-x-auto py-2 text-sm font-semibold">
+          {services.map((s) => (
+            <li key={s.id} className="shrink-0">
+              <a href={`#${s.id}`} className="block rounded-full px-3.5 py-2 text-slate-600 hover:bg-mist hover:text-ink">
+                {s.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-      <ServicesContent />
+      <div className="container space-y-20 py-16 lg:space-y-28 lg:py-24">
+        {services.map((s, i) => (
+          <article
+            key={s.id}
+            id={s.id}
+            className="grid scroll-mt-32 items-center gap-10 lg:grid-cols-2 lg:gap-16"
+          >
+            <div className={`relative aspect-[4/3] overflow-hidden rounded-3xl shadow-card ${i % 2 ? 'lg:order-2' : ''}`}>
+              <Image src={s.image} alt={s.title} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+            </div>
+            <div>
+              <span className="eyebrow">Servicio {String(i + 1).padStart(2, '0')}</span>
+              <h2 className="mt-3 text-3xl font-extrabold text-ink md:text-4xl">{s.title}</h2>
+              <p className="mt-4 text-lg leading-relaxed text-slate-600">{s.intro}</p>
+              <div className="mt-6 grid gap-6 sm:grid-cols-2">
+                {s.includes.map((sec) => (
+                  <div key={sec.title}>
+                    <h3 className="text-xs font-bold uppercase tracking-[0.14em] text-navy-700">{sec.title}</h3>
+                    <ul className="mt-3 space-y-2">
+                      {sec.items.map((it) => (
+                        <li key={it} className="flex items-start gap-2 text-sm text-slate-700">
+                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
+                          {it}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-6 text-sm text-slate-600">{s.outro}</p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <TrackedLink
+                  event="contact_whatsapp"
+                  location={`pagina-servicio-${s.id}`}
+                  href={whatsappUrl(`Hola Climex, me interesa el servicio de ${s.title.toLowerCase()}.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-whatsapp"
+                >
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                  Cotizar por WhatsApp
+                </TrackedLink>
+                <Link href="/contacto" className="btn-outline">
+                  Solicitar cotización
+                </Link>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
 
-      <CTASection />
+      <CTABand />
     </>
   )
 }

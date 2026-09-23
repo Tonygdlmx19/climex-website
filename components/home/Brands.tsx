@@ -1,0 +1,30 @@
+import Image from 'next/image'
+import { site } from '@/lib/site'
+
+export default function Brands() {
+  const logos = [...site.brands, ...site.brands]
+  return (
+    <section aria-labelledby="marcas" className="border-y border-line bg-white py-10">
+      <div className="container">
+        <h2 id="marcas" className="text-center text-xs font-bold uppercase tracking-[0.22em] text-slate-500">
+          Instalamos y damos servicio a todas las marcas
+        </h2>
+        <div className="relative mt-7 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <ul className="flex w-max animate-marquee items-center gap-14 motion-reduce:animate-none motion-reduce:flex-wrap motion-reduce:justify-center">
+            {logos.map((b, i) => (
+              <li key={`${b.name}-${i}`} className="shrink-0" aria-hidden={i >= site.brands.length}>
+                <Image
+                  src={b.logo}
+                  alt={i < site.brands.length ? b.name : ''}
+                  width={140}
+                  height={56}
+                  className="h-10 w-auto object-contain opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0 md:h-12"
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  )
+}

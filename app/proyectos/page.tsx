@@ -1,144 +1,51 @@
-import { Metadata } from 'next'
-import { Building2, Home, Store, Factory } from 'lucide-react'
-import CTASection from '@/components/CTASection'
+import type { Metadata } from 'next'
+import { Home, Store, Factory } from 'lucide-react'
+import PageHero from '@/components/ui/PageHero'
+import Gallery from '@/components/home/Gallery'
+import CTABand from '@/components/CTABand'
 
 export const metadata: Metadata = {
-  title: 'Proyectos | Climex Soluciones Integrales',
-  description: 'Conoce algunos de nuestros proyectos de instalacion y mantenimiento de aires acondicionados en Guadalajara.',
+  title: 'Trabajos realizados',
+  description:
+    'Fotos reales de instalaciones, mantenimientos y proyectos de aire acondicionado realizados por Climex en Guadalajara y zona metropolitana.',
+  alternates: { canonical: '/proyectos' },
 }
 
-const categories = [
-  { id: 'todos', name: 'Todos', icon: null },
-  { id: 'residencial', name: 'Residencial', icon: Home },
-  { id: 'comercial', name: 'Comercial', icon: Store },
-  { id: 'industrial', name: 'Industrial', icon: Factory },
-]
-
-const projects = [
-  {
-    id: 1,
-    title: 'Restaurante El Patron',
-    category: 'comercial',
-    description: 'Instalacion de sistema de climatizacion central con 4 equipos de 5 toneladas.',
-    location: 'Zapopan, Jalisco',
-  },
-  {
-    id: 2,
-    title: 'Oficinas Corporativas',
-    category: 'comercial',
-    description: 'Sistema VRF para edificio de oficinas de 3 niveles.',
-    location: 'Guadalajara, Jalisco',
-  },
-  {
-    id: 3,
-    title: 'Residencia Colinas',
-    category: 'residencial',
-    description: 'Instalacion de 5 minisplits inverter en residencia de lujo.',
-    location: 'Tlajomulco, Jalisco',
-  },
-  {
-    id: 4,
-    title: 'Clinica Dental',
-    category: 'comercial',
-    description: 'Sistema de climatizacion para consultorio con control de humedad.',
-    location: 'Guadalajara, Jalisco',
-  },
-  {
-    id: 5,
-    title: 'Bodega Industrial',
-    category: 'industrial',
-    description: 'Sistema de ventilacion y enfriamiento para nave industrial de 2000m2.',
-    location: 'El Salto, Jalisco',
-  },
-  {
-    id: 6,
-    title: 'Casa Habitacion',
-    category: 'residencial',
-    description: 'Instalacion de minisplit de 2 toneladas con servicio de mantenimiento.',
-    location: 'Tonala, Jalisco',
-  },
+const types = [
+  { icon: Home, title: 'Residencial', text: 'Minisplit inverter, piso-techo y sistemas para casas y departamentos.' },
+  { icon: Store, title: 'Comercial', text: 'Oficinas, restaurantes, consultorios, tiendas y escuelas.' },
+  { icon: Factory, title: 'Industrial', text: 'Bodegas, plantas y naves con cálculo de carga térmica.' },
 ]
 
 export default function ProyectosPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-primary to-primary-dark pt-32 pb-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Nuestros Proyectos
-          </h1>
-          <p className="text-blue-100 text-lg max-w-2xl mx-auto">
-            Conoce algunos de los trabajos que hemos realizado
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Trabajos"
+        title="Trabajos realizados"
+        description="Instalaciones y servicios reales de nuestro equipo en Guadalajara, Zapopan, Tlaquepaque, Tonalá y Tlajomulco."
+        crumbs={[{ name: 'Trabajos' }]}
+      />
 
-      {/* Filters */}
-      <section className="py-8 border-b">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap gap-4 justify-center">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                  category.id === 'todos'
-                    ? 'bg-primary text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Grid */}
-      <section className="py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <div
-                key={project.id}
-                className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-shadow"
-              >
-                {/* Image placeholder */}
-                <div className="aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                  <Building2 className="w-16 h-16 text-gray-300" />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full capitalize">
-                      {project.category}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold text-neutral-dark mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-3">
-                    {project.description}
-                  </p>
-                  <p className="text-gray-400 text-sm">
-                    📍 {project.location}
-                  </p>
-                </div>
+      <section className="container py-12">
+        <ul className="grid gap-4 md:grid-cols-3">
+          {types.map((t) => (
+            <li key={t.title} className="card flex gap-4 p-5">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+                <t.icon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <div>
+                <h2 className="font-extrabold text-ink">{t.title}</h2>
+                <p className="mt-1 text-sm text-slate-600">{t.text}</p>
               </div>
-            ))}
-          </div>
-
-          {/* Note about photos */}
-          <div className="mt-16 text-center">
-            <div className="inline-block bg-blue-50 rounded-xl px-8 py-6">
-              <p className="text-gray-600">
-                <strong className="text-primary">Nota:</strong> Agrega tus propias fotos de proyectos reales en la carpeta <code className="bg-gray-100 px-2 py-1 rounded">/public/images/projects/</code>
-              </p>
-            </div>
-          </div>
-        </div>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <CTASection />
+      <Gallery limit={100} showLink={false} id="galeria" heading={false} />
+
+      <CTABand />
     </>
   )
 }
