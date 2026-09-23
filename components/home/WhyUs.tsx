@@ -49,10 +49,9 @@ export default function WhyUs() {
 
           <div className="relative">
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
-              {/* Cambia esta imagen por /images/equipo-climex.jpg cuando la tengas */}
               <Image
-                src="/trabajos/01-tablero-unidad-paquete.jpg"
-                alt="Técnico de Climex trabajando en el tablero eléctrico de una unidad tipo paquete"
+                src="/images/equipo-climex.jpg"
+                alt="Técnico de Climex explicando el servicio a una clienta junto a un minisplit recién instalado"
                 fill
                 sizes="(min-width: 1024px) 45vw, 100vw"
                 className="object-cover"
