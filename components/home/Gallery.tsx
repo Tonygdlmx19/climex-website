@@ -22,6 +22,9 @@ export default function Gallery({
   // Con 3 columnas, el primer elemento ocupa 2x2; si al final sobra una sola
   // foto, ocupa toda la fila para no dejar un hueco.
   const orphanLast = items.length > 3 && (items.length - 3) % 3 === 1
+  // En móvil hay 2 columnas: la primera foto ocupa las dos y el resto va en pares;
+  // si sobra una, también se estira a todo el ancho.
+  const mobileOrphan = (items.length - 1) % 2 === 1
   const [index, setIndex] = useState<number | null>(null)
 
   const close = useCallback(() => setIndex(null), [])
@@ -59,7 +62,11 @@ export default function Gallery({
             <li
               key={w.src}
               className={
-                i === 0 ? 'col-span-2 row-span-2' : orphanLast && i === items.length - 1 ? 'col-span-2 md:col-span-3' : ''
+                i === 0
+                  ? 'col-span-2 row-span-2'
+                  : i === items.length - 1
+                    ? `${mobileOrphan ? 'col-span-2' : ''} ${orphanLast ? 'md:col-span-3' : 'md:col-span-1'}`
+                    : ''
               }
             >
               <button
@@ -72,8 +79,8 @@ export default function Gallery({
                   className={`relative block ${
                     i === 0
                       ? 'aspect-[4/3] md:aspect-auto md:h-full md:min-h-[24rem]'
-                      : orphanLast && i === items.length - 1
-                        ? 'aspect-[16/9] md:aspect-[3/1]'
+                      : i === items.length - 1
+                        ? `${mobileOrphan ? 'aspect-[16/9]' : 'aspect-[4/3]'} ${orphanLast ? 'md:aspect-[3/1]' : 'md:aspect-[4/3]'}`
                         : 'aspect-[4/3]'
                   }`}
                 >
@@ -82,7 +89,7 @@ export default function Gallery({
                     alt={w.alt}
                     fill
                     sizes={
-                      orphanLast && i === items.length - 1
+                      i === items.length - 1 && (orphanLast || mobileOrphan)
                         ? '100vw'
                         : i === 0
                           ? '(min-width: 768px) 66vw, 100vw'

@@ -77,9 +77,9 @@ export default function Header() {
             priority
             className="h-11 w-11 object-contain"
           />
-          <span className="hidden leading-tight sm:block">
-            <span className="block text-[17px] font-extrabold tracking-tight text-brand-600">CLIMEX</span>
-            <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-navy-600">
+          <span className="leading-tight">
+            <span className="block text-[15px] font-extrabold tracking-tight text-brand-600 sm:text-[17px]">CLIMEX</span>
+            <span className="block text-[9px] font-bold uppercase tracking-[0.14em] text-navy-600 sm:text-[11px]">
               Soluciones Integrales
             </span>
           </span>
