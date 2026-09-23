@@ -1,13 +1,69 @@
 export type Work = { src: string; alt: string; w: number; h: number }
 
+/**
+ * Fotos reales de trabajos de Climex (carpeta public/trabajos).
+ * La primera se muestra en grande en la portada. Para agregar una foto:
+ * cópiala a public/trabajos y agrega una línea aquí con su tamaño en píxeles.
+ */
 export const works: Work[] = [
-  { src: '/trabajos/5c415407-df59-41a4-a8d7-30c99bd2d53c.JPG', alt: 'Prueba de aislamiento eléctrico en unidad condensadora', w: 1600, h: 1200 },
-  { src: '/trabajos/025eda32-a3b3-4f6a-b090-e3ff06818658.JPG', alt: 'Trabajo de instalación de aire acondicionado', w: 1280, h: 960 },
-  { src: '/trabajos/1ae1ac62-09e1-40cf-a1e0-4652b7e1d78a.JPG', alt: 'Mantenimiento de equipo de aire acondicionado', w: 1600, h: 1201 },
-  { src: '/trabajos/2227b464-edc6-4f5e-bc6f-e3d1dc9f56e6.JPG', alt: 'Instalación de unidad interior', w: 963, h: 1280 },
-  { src: '/trabajos/96632c65-46f1-4256-8328-e8c75d709b77.JPG', alt: 'Equipo de aire acondicionado instalado', w: 1600, h: 1200 },
-  { src: '/trabajos/9d5f79e2-dce4-47e5-8176-c7be3acadaba.JPG', alt: 'Servicio técnico de aire acondicionado', w: 1600, h: 1200 },
-  { src: '/trabajos/b648827d-2b91-4b52-b2be-09705281cbf3.JPG', alt: 'Unidad condensadora en servicio', w: 1600, h: 1200 },
-  { src: '/trabajos/b81ae4ae-757d-4149-b2d2-50880d735645.JPG', alt: 'Instalación de tubería de cobre', w: 1201, h: 1600 },
-  { src: '/trabajos/e6c0b2ff-8274-49a8-9dbf-b28895a0d705.JPG', alt: 'Proyecto de climatización terminado', w: 3840, h: 2160 },
+  {
+    src: '/trabajos/01-tablero-unidad-paquete.jpg',
+    alt: 'Técnico de Climex revisando el tablero eléctrico de una unidad tipo paquete en azotea',
+    w: 1600,
+    h: 1200,
+  },
+  {
+    src: '/trabajos/09-servicio-condensadoras-carrier-mirage.jpg',
+    alt: 'Servicio a condensadoras Carrier y Mirage instaladas en muro de un local comercial',
+    w: 1512,
+    h: 1512,
+  },
+  {
+    src: '/trabajos/06-condensadoras-minisplit-azotea.jpg',
+    alt: 'Proyecto con catorce condensadoras de minisplit alineadas en azotea',
+    w: 1600,
+    h: 747,
+  },
+  {
+    src: '/trabajos/04-condensadoras-mirage-inverter.jpg',
+    alt: 'Instalación de dos condensadoras Mirage Inverter X sobre base metálica',
+    w: 963,
+    h: 1280,
+  },
+  {
+    src: '/trabajos/05-unidad-paquete-mirage-azotea.jpg',
+    alt: 'Unidad tipo paquete Mirage instalada en azotea residencial',
+    w: 1280,
+    h: 960,
+  },
+  {
+    src: '/trabajos/10-ductos-aislados-azotea.jpg',
+    alt: 'Red de ductos aislados para climatización en azotea',
+    w: 1280,
+    h: 963,
+  },
+  {
+    src: '/trabajos/07-mantenimiento-cassette-oficinas.jpg',
+    alt: 'Mantenimiento de equipo tipo cassette en plafón de oficinas',
+    w: 1600,
+    h: 1200,
+  },
+  {
+    src: '/trabajos/02-paquete-carrier-nave-industrial.jpg',
+    alt: 'Unidad tipo paquete Carrier sobre techo de nave industrial',
+    w: 720,
+    h: 1280,
+  },
+  {
+    src: '/trabajos/03-maniobra-grua-equipo-industrial.jpg',
+    alt: 'Maniobra con grúa para descarga de equipo de climatización industrial',
+    w: 1600,
+    h: 1200,
+  },
+  {
+    src: '/trabajos/08-ventilacion-techo-nave.jpg',
+    alt: 'Instalación de sistema de ventilación en techo de nave industrial',
+    w: 1200,
+    h: 1600,
+  },
 ]
