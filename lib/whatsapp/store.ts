@@ -27,6 +27,8 @@ export type Session = {
   history?: { role: 'user' | 'assistant'; content: string }[]
   /** Modo IA: ya se envió el lead al equipo en esta conversación */
   leadSent?: boolean
+  /** Diagnóstico: motivo de la última respuesta vacía de la IA */
+  lastEmptyReason?: string
 }
 
 const memory = new Map<string, Session>()

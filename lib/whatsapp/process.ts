@@ -69,7 +69,8 @@ export async function processWebhook(body: unknown): Promise<OutboundMessage[]> 
             await setSession(m.from, ai.session)
             const msg: OutboundMessage = { type: 'text', to: m.from, body: ai.reply }
             outbox.push(msg)
-            await logEvent('ia_turno', m.from, { in: userText.slice(0, 80), out: ai.reply.slice(0, 80), lead: !!ai.lead, step: ai.session.step })
+            await logEvent('ia_turno', m.from, { in: userText.slice(0, 80), out: ai.reply.slice(0, 80), lead: !!ai.lead, step: ai.session.step, empty: ai.session.lastEmptyReason })
+            ai.session.lastEmptyReason = undefined
             // Primero el aviso al equipo (es lo importante), después la respuesta al cliente.
             if (ai.lead) {
               try {

@@ -115,7 +115,7 @@ ${preciosTxt}
 PREGUNTAS FRECUENTES (usa estas respuestas como base)
 ${faqTxt}
 
-${session.leadSent ? 'NOTA: en esta conversación YA se registró un lead y un asesor lo tiene. No vuelvas a registrar salvo que el cliente pida un servicio distinto; si pregunta algo más, responde con normalidad.' : ''}`
+${session.leadSent ? 'NOTA: en esta conversación ya se registró un lead antes. Si el cliente hace una NUEVA solicitud o cambia datos importantes (servicio, equipo, zona, horario), vuelve a llamar registrar_lead con la información actualizada; si solo pregunta algo, responde con normalidad.' : ''}`
 }
 
 const tools = [
@@ -170,7 +170,7 @@ async function callClaude(system: string, messages: Msg[]) {
       'anthropic-version': '2023-06-01',
       'content-type': 'application/json',
     },
-    body: JSON.stringify({ model: MODEL, max_tokens: 700, thinking: { type: 'disabled' }, system, tools, messages }),
+    body: JSON.stringify({ model: MODEL, max_tokens: 2000, thinking: { type: 'disabled' }, system, tools, messages }),
   })
   if (!res.ok) throw new Error(`anthropic ${res.status}: ${await res.text()}`)
   return (await res.json()) as { content: { type: string; text?: string; id?: string; name?: string; input?: Record<string, string> }[]; stop_reason: string }
@@ -265,7 +265,11 @@ export async function aiTurn(
     response = await callClaude(system, messages)
   }
 
-  if (!reply) reply = 'Perfecto, lo tengo. Un asesor te escribe en breve.'
+  if (!reply) {
+    console.error('[whatsapp] respuesta vacía de la IA', JSON.stringify({ stop: response.stop_reason, types: response.content.map((c) => c.type) }))
+    session.lastEmptyReason = `${response.stop_reason}:${response.content.map((c) => c.type).join(',')}`
+    reply = 'Perfecto, lo tengo. Un asesor te escribe en breve.'
+  }
   history.push({ role: 'assistant', content: reply })
   session.history = history
   return { session, reply, lead }
