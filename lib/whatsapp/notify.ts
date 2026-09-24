@@ -42,19 +42,48 @@ export async function notifyTeam(lead: Lead): Promise<void> {
     )
   }
 
-  // 2) WhatsApp al equipo (plantilla aprobada; fuera de la ventana de 24 h solo se permiten plantillas)
-  // Número del equipo (Tony) y plantilla aprobada en Meta; se pueden cambiar por variables de entorno.
+  // 2) WhatsApp al equipo. Primero mensaje normal (funciona si el equipo escribió al bot en las
+  //    últimas 24 h); si Meta lo rechaza, plantilla aprobada (funciona siempre).
+  //    Número y plantilla se pueden cambiar por variables de entorno.
   const team = process.env.WA_TEAM_NUMBER || '5213324568104'
   const template = process.env.WA_TEAM_TEMPLATE || 'nuevo_lead'
-  if (team && template) {
+  if (team) {
+    const texto = [
+      `🔔 *Nuevo contacto por WhatsApp*${lead.origen === 'asesor' ? ' (pide asesor)' : ''}`,
+      `Nombre: ${lead.nombre}`,
+      `Servicio: ${lead.servicio}`,
+      lead.equipo ? `Equipo: ${lead.equipo}` : null,
+      `Zona: ${lead.zona}`,
+      `Detalle: ${lead.detalle}`,
+      lead.horario ? `Horario preferido: ${lead.horario}` : null,
+      lead.acceso ? `Acceso: ${lead.acceso}` : null,
+      lead.contactoEnSitio ? `Recibe: ${lead.contactoEnSitio}` : null,
+      lead.logistica ? `Logística: ${lead.logistica}` : null,
+      lead.resumen ? `\nResumen: ${lead.resumen}` : null,
+      `\nResponder: https://wa.me/${lead.telefono}`,
+    ]
+      .filter(Boolean)
+      .join('\n')
     tasks.push(
-      send({
-        type: 'template',
-        to: team,
-        name: template,
-        lang: process.env.WA_TEAM_TEMPLATE_LANG || 'es_MX',
-        params: [lead.nombre, lead.servicio, lead.equipo || '-', lead.zona, `${lead.detalle}${lead.horario ? ` · Horario: ${lead.horario}` : ''}${lead.acceso ? ` · Acceso: ${lead.acceso}` : ''}`, `+${lead.telefono}`],
-      })
+      (async () => {
+        const r = await send({ type: 'text', to: team, body: texto })
+        if (!r.ok && template) {
+          await send({
+            type: 'template',
+            to: team,
+            name: template,
+            lang: process.env.WA_TEAM_TEMPLATE_LANG || 'es_MX',
+            params: [
+              lead.nombre,
+              lead.servicio,
+              lead.equipo || '-',
+              lead.zona,
+              `${lead.detalle}${lead.horario ? ` · Horario: ${lead.horario}` : ''}${lead.acceso ? ` · Acceso: ${lead.acceso}` : ''}`,
+              `+${lead.telefono}`,
+            ],
+          })
+        }
+      })()
     )
   }
 
