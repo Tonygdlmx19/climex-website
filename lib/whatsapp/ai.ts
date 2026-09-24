@@ -130,7 +130,7 @@ async function callClaude(system: string, messages: Msg[]) {
       'anthropic-version': '2023-06-01',
       'content-type': 'application/json',
     },
-    body: JSON.stringify({ model: MODEL, max_tokens: 500, system, tools, messages }),
+    body: JSON.stringify({ model: MODEL, max_tokens: 700, thinking: { type: 'disabled' }, system, tools, messages }),
   })
   if (!res.ok) throw new Error(`anthropic ${res.status}: ${await res.text()}`)
   return (await res.json()) as { content: { type: string; text?: string; id?: string; name?: string; input?: Record<string, string> }[]; stop_reason: string }
