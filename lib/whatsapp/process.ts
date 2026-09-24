@@ -25,7 +25,12 @@ export async function processWebhook(body: unknown): Promise<OutboundMessage[]> 
   const payload = body as { entry?: { changes?: { value?: { messages?: WaMessage[]; contacts?: { profile?: { name?: string } }[] } }[] }[] }
   for (const entry of payload?.entry ?? []) {
     for (const change of entry.changes ?? []) {
-      const value = change.value
+      const value = change.value as typeof change.value & { statuses?: { id: string; status: string; recipient_id?: string; errors?: unknown }[] }
+      if (value?.statuses) {
+        for (const st of value.statuses) {
+          if (st.status === 'failed' || st.errors) await logEvent('estado_envio', st.recipient_id, { status: st.status, errors: st.errors })
+        }
+      }
       if (!value?.messages) continue // estados de entrega, etc.
       const contactName: string | undefined = value.contacts?.[0]?.profile?.name
       for (const m of value.messages as WaMessage[]) {

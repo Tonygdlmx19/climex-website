@@ -47,8 +47,8 @@ export async function POST(req: NextRequest) {
     return new NextResponse('bad signature', { status: 401 })
   }
 
-  // Sin mensajes (solo estados de entrega) no hay nada que procesar.
-  if (!raw.includes('"messages"')) return NextResponse.json({ ok: true })
+  // Solo procesamos mensajes y estados fallidos (para diagnóstico).
+  if (!raw.includes('"messages"') && !raw.includes('"failed"')) return NextResponse.json({ ok: true })
 
   if (dryRun()) {
     let body: unknown
