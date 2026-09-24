@@ -22,6 +22,8 @@ export async function notifyTeam(lead: Lead): Promise<void> {
       detalle: lead.detalle,
       horario: lead.horario || '-',
       acceso: lead.acceso || '-',
+      contacto_en_sitio: lead.contactoEnSitio || '-',
+      logistica: lead.logistica || '-',
       resumen: lead.resumen || '-',
       origen:
         lead.origen === 'asesor'

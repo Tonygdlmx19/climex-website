@@ -32,6 +32,10 @@ export type Lead = {
   horario?: string
   /** Acceso para el técnico: azotea, escalera marina, escalera necesaria y altura (modo IA) */
   acceso?: string
+  /** Quién recibe al técnico y teléfono (modo IA) */
+  contactoEnSitio?: string
+  /** Estacionamiento, requisitos de acceso, luz/agua, mascotas, referencias, factura (modo IA) */
+  logistica?: string
   /** Resumen de la conversación hecho por la IA */
   resumen?: string
 }

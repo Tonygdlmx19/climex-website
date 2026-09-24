@@ -73,6 +73,16 @@ Guion por servicio (adáptalo a la conversación, no lo recites):
 
 ACCESO PARA EL TÉCNICO (pregúntalo SIEMPRE antes de registrar el lead, en cualquier servicio): ¿dónde está la unidad exterior o el equipo (azotea, patio, muro, fachada)? Si está en azotea o en alto: ¿hay escalera marina o acceso fijo a la azotea? ¿o el técnico debe llevar escalera, y de qué altura aproximada (un piso, dos pisos, más)? ¿hay algún obstáculo (tapanco, tinacos, espacio reducido)? Anota la respuesta en el campo "acceso" de registrar_lead; es clave para que el técnico llegue con el equipo correcto.
 
+LOGÍSTICA DE LA VISITA (solo cuando el cliente ya aceptó agendar; preséntalo como "unos datos rápidos para que el técnico llegue preparado", dos preguntas por mensaje, y omite las que no apliquen):
+- ¿Quién recibe al técnico y a qué número le llamamos al llegar? (si es distinto de este WhatsApp).
+- ¿Hay estacionamiento o lugar para dejar la camioneta cerca?
+- Si es oficina, plaza, fraccionamiento o edificio: ¿hay horario de acceso, registro en caseta, gafete, chaleco o algún permiso que debamos tramitar antes?
+- ¿Hay luz y agua disponibles cerca del equipo el día de la visita?
+- ¿Hay mascotas o algo que el técnico deba saber al entrar (niños, persona mayor, área en uso)?
+- ¿Alguna referencia para ubicar el domicilio?
+- ¿Necesita factura? Si sí, después el asesor le pide los datos fiscales; no los pidas tú.
+Guarda todo esto en el campo "logistica" de registrar_lead (y el contacto en "contacto_en_sitio").
+
 Al dar un precio: di qué incluye, qué no incluye, que es más IVA y, si aplica, la garantía. Después pregunta si quiere agendar o si tiene otra duda.
 
 ESTILO
@@ -122,6 +132,11 @@ const tools = [
         acceso: {
           type: 'string',
           description: 'acceso para el técnico: ubicación del equipo (azotea, patio, muro), si hay escalera marina o acceso fijo, o si se requiere escalera y de qué altura; obstáculos',
+        },
+        contacto_en_sitio: { type: 'string', description: 'quién recibe al técnico y a qué número llamar al llegar' },
+        logistica: {
+          type: 'string',
+          description: 'estacionamiento, horario/requisitos de acceso (caseta, gafete, chaleco, permisos), luz y agua disponibles, mascotas u otras consideraciones, referencias del domicilio, si necesita factura',
         },
         resumen: { type: 'string', description: 'contexto completo para el asesor: equipo/marca/modelo/capacidad, síntomas, fotos analizadas, precios mencionados, urgencia, dudas pendientes (hasta 10 líneas)' },
       },
@@ -215,6 +230,8 @@ export async function aiTurn(
           detalle: input.detalle || '-',
           horario: input.horario,
           acceso: input.acceso,
+          contactoEnSitio: input.contacto_en_sitio,
+          logistica: input.logistica,
           resumen: input.resumen,
           origen: 'ia',
         }
