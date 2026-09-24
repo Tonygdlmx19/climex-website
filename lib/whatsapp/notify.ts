@@ -7,7 +7,10 @@ import { site } from '@/lib/site'
 import { send, dryRun } from './api'
 import type { Lead } from './flow'
 
-export async function notifyTeam(lead: Lead): Promise<void> {
+export type NotifyReport = { form?: string; whatsappText?: string; whatsappTemplate?: string }
+
+export async function notifyTeam(lead: Lead): Promise<NotifyReport> {
+  const report: NotifyReport = {}
   const tasks: Promise<unknown>[] = []
 
   // 1) Correo vía Netlify Forms
@@ -38,7 +41,15 @@ export async function notifyTeam(lead: Lead): Promise<void> {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: body.toString(),
-      }).catch((e) => console.error('[whatsapp] netlify form failed', e))
+      })
+        .then((r) => {
+          report.form = `HTTP ${r.status}`
+          if (!r.ok) console.error('[whatsapp] netlify form failed', r.status)
+        })
+        .catch((e) => {
+          report.form = `error ${String(e)}`
+          console.error('[whatsapp] netlify form failed', e)
+        })
     )
   }
 
@@ -67,8 +78,9 @@ export async function notifyTeam(lead: Lead): Promise<void> {
     tasks.push(
       (async () => {
         const r = await send({ type: 'text', to: team, body: texto })
+        report.whatsappText = r.ok ? 'ok' : `error ${r.error}`
         if (!r.ok && template) {
-          await send({
+          const t = await send({
             type: 'template',
             to: team,
             name: template,
@@ -82,10 +94,13 @@ export async function notifyTeam(lead: Lead): Promise<void> {
               `+${lead.telefono}`,
             ],
           })
+          report.whatsappTemplate = t.ok ? 'ok' : `error ${t.error}`
         }
       })()
     )
   }
 
   await Promise.all(tasks)
+  console.log('[whatsapp] notifyTeam', JSON.stringify(report))
+  return report
 }
