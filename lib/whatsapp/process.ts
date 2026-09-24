@@ -5,7 +5,7 @@
  * netlify/functions/whatsapp-process-background (producción).
  */
 import { next as advance, type Inbound } from './flow'
-import { getSession, setSession } from './store'
+import { getSession, setSession, logEvent } from './store'
 import { send, markRead, dryRun, downloadMedia, type OutboundMessage } from './api'
 import { notifyTeam } from './notify'
 import { aiEnabled, aiTurn, wantsReset } from './ai'
@@ -64,18 +64,21 @@ export async function processWebhook(body: unknown): Promise<OutboundMessage[]> 
             await setSession(m.from, ai.session)
             const msg: OutboundMessage = { type: 'text', to: m.from, body: ai.reply }
             outbox.push(msg)
+            await logEvent('ia_turno', m.from, { in: userText.slice(0, 80), out: ai.reply.slice(0, 80), lead: !!ai.lead, step: ai.session.step })
             // Primero el aviso al equipo (es lo importante), después la respuesta al cliente.
             if (ai.lead) {
               try {
                 const report = await notifyTeam(ai.lead)
-                console.log('[whatsapp] lead notificado', JSON.stringify(report))
+                await logEvent('aviso_equipo', m.from, report)
               } catch (e) {
-                console.error('[whatsapp] notifyTeam falló', e)
+                await logEvent('aviso_equipo_error', m.from, String(e))
               }
             }
-            await send(msg)
+            const sent = await send(msg)
+            if (!sent.ok) await logEvent('respuesta_error', m.from, sent.error)
             continue
           } catch (e) {
+            await logEvent('ia_error', m.from, String(e))
             console.error('[whatsapp] IA falló, usando menú guiado', e)
           }
         }

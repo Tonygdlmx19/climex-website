@@ -67,3 +67,29 @@ export async function clearSession(phone: string): Promise<void> {
   }
   await store.delete(phone).catch(() => {})
 }
+
+/** Registro de diagnóstico (últimos eventos) para /api/whatsapp/test-notify?log=1 */
+export type LogEntry = { t: string; from?: string; ev: string; data?: unknown }
+
+export async function logEvent(ev: string, from?: string, data?: unknown): Promise<void> {
+  const entry: LogEntry = { t: new Date().toISOString(), from, ev, data }
+  const store = blobs()
+  if (!store) {
+    console.log('[whatsapp-log]', JSON.stringify(entry))
+    return
+  }
+  try {
+    const prev = ((await store.get('log', { type: 'json' })) as LogEntry[] | null) ?? []
+    prev.push(entry)
+    while (prev.length > 60) prev.shift()
+    await store.setJSON('log', prev)
+  } catch (e) {
+    console.error('[whatsapp-log] fallo', e)
+  }
+}
+
+export async function readLog(): Promise<LogEntry[]> {
+  const store = blobs()
+  if (!store) return []
+  return ((await store.get('log', { type: 'json' })) as LogEntry[] | null) ?? []
+}
