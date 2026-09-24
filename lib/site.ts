@@ -23,8 +23,8 @@ export const site = {
   // Número de WhatsApp que se publica en el sitio y en los anuncios.
   // Cuando el asistente automático esté activo, aquí va el número nuevo del bot.
   whatsapp: {
-    number: '523324568104',
-    display: '33 2456 8104',
+    number: '523334057824',
+    display: '33 3405 7824',
     defaultMessage:
       'Hola Climex, me gustaría cotizar un servicio de aire acondicionado.',
   },
