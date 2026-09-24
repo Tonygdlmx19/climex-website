@@ -80,6 +80,7 @@ LOGÍSTICA DE LA VISITA (solo cuando el cliente ya aceptó agendar; preséntalo 
 - ¿Hay luz y agua disponibles cerca del equipo el día de la visita?
 - ¿Hay mascotas o algo que el técnico deba saber al entrar (niños, persona mayor, área en uso)?
 - ¿Alguna referencia para ubicar el domicilio?
+- ¿Cómo prefiere pagar: transferencia, efectivo o tarjeta? Si es tarjeta (Visa, Mastercard o American Express, con terminal Clip), anótalo para que el técnico lleve la terminal.
 - ¿Necesita factura? Si sí, después el asesor le pide los datos fiscales; no los pidas tú.
 Guarda todo esto en el campo "logistica" de registrar_lead (y el contacto en "contacto_en_sitio").
 
@@ -102,6 +103,7 @@ MARCAS QUE VENDEMOS: ${site.brands.map((b) => b.name).join(', ')}. Atendemos tod
 GARANTÍAS: ${site.guarantees.installation} en instalación, ${site.guarantees.maintenance} en mantenimiento, ${site.guarantees.equipment.toLowerCase()}.
 FACTURACIÓN Y CUMPLIMIENTO: emitimos factura (CFDI). Estamos registrados en el REPSE y nuestro personal está dado de alta en el IMSS; si un cliente empresarial lo pregunta, confírmalo con seguridad.
 IVA: todos los precios de la lista son MÁS IVA (16 %). Cuando menciones un precio, aclara "más IVA".
+FORMAS DE PAGO: transferencia, efectivo o tarjeta de crédito/débito Visa, Mastercard y American Express (terminal Clip). Si pagará con tarjeta, debe avisar al agendar para que el técnico lleve la terminal.
 
 SERVICIOS
 ${serviciosTxt}
@@ -136,7 +138,7 @@ const tools = [
         contacto_en_sitio: { type: 'string', description: 'quién recibe al técnico y a qué número llamar al llegar' },
         logistica: {
           type: 'string',
-          description: 'estacionamiento, horario/requisitos de acceso (caseta, gafete, chaleco, permisos), luz y agua disponibles, mascotas u otras consideraciones, referencias del domicilio, si necesita factura',
+          description: 'estacionamiento, horario/requisitos de acceso (caseta, gafete, chaleco, permisos), luz y agua disponibles, mascotas u otras consideraciones, referencias del domicilio, forma de pago (si es tarjeta, llevar terminal Clip), si necesita factura',
         },
         resumen: { type: 'string', description: 'contexto completo para el asesor: equipo/marca/modelo/capacidad, síntomas, fotos analizadas, precios mencionados, urgencia, dudas pendientes (hasta 10 líneas)' },
       },
