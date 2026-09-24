@@ -76,7 +76,7 @@ function toPayload(m: OutboundMessage): Record<string, unknown> {
   }
 }
 
-export async function send(m: OutboundMessage): Promise<{ ok: boolean; error?: string }> {
+export async function send(m: OutboundMessage): Promise<{ ok: boolean; error?: string; data?: unknown }> {
   if (dryRun()) return { ok: true }
   const res = await fetch(`${GRAPH}/${process.env.WA_PHONE_ID}/messages`, {
     method: 'POST',
@@ -91,7 +91,8 @@ export async function send(m: OutboundMessage): Promise<{ ok: boolean; error?: s
     console.error('[whatsapp] send failed', res.status, error)
     return { ok: false, error }
   }
-  return { ok: true }
+  const data = await res.json().catch(() => undefined)
+  return { ok: true, data }
 }
 
 /** Marca el mensaje como leído (palomitas azules) para que el cliente vea que hay respuesta. */
