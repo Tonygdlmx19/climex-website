@@ -106,3 +106,20 @@ export async function markRead(messageId: string) {
     body: JSON.stringify({ messaging_product: 'whatsapp', status: 'read', message_id: messageId }),
   }).catch(() => {})
 }
+
+/** Descarga una imagen enviada por el cliente (id de media de WhatsApp). */
+export async function downloadMedia(mediaId: string): Promise<{ base64: string; mimeType: string } | null> {
+  if (dryRun()) return null
+  try {
+    const meta = await fetch(`${GRAPH}/${mediaId}`, { headers: { Authorization: `Bearer ${process.env.WA_TOKEN}` } }).then((r) => r.json())
+    if (!meta?.url) return null
+    const res = await fetch(meta.url, { headers: { Authorization: `Bearer ${process.env.WA_TOKEN}` } })
+    if (!res.ok) return null
+    const buf = Buffer.from(await res.arrayBuffer())
+    if (buf.length > 4_500_000) return null // límite razonable para enviarla a la IA
+    return { base64: buf.toString('base64'), mimeType: meta.mime_type || 'image/jpeg' }
+  } catch (e) {
+    console.error('[whatsapp] downloadMedia', e)
+    return null
+  }
+}

@@ -17,7 +17,7 @@ import { createHmac, timingSafeEqual } from 'node:crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { next as advance, type Inbound } from '@/lib/whatsapp/flow'
 import { getSession, setSession } from '@/lib/whatsapp/store'
-import { send, markRead, dryRun } from '@/lib/whatsapp/api'
+import { send, markRead, dryRun, downloadMedia } from '@/lib/whatsapp/api'
 import { notifyTeam } from '@/lib/whatsapp/notify'
 import { aiEnabled, aiTurn, wantsReset } from '@/lib/whatsapp/ai'
 
@@ -48,6 +48,7 @@ type WaMessage = {
   text?: { body: string }
   interactive?: { type: string; button_reply?: { id: string; title: string }; list_reply?: { id: string; title: string } }
   button?: { payload?: string; text?: string }
+  image?: { id: string; mime_type?: string; caption?: string }
 }
 
 export async function POST(req: NextRequest) {
@@ -86,11 +87,20 @@ export async function POST(req: NextRequest) {
         const isText = m.type === 'text' || m.type === 'interactive' || m.type === 'button'
 
         // Modo IA (conversación natural) si hay clave; si falla, cae al menú guiado.
-        if (aiEnabled() && isText && inbound.text) {
+        const isImage = m.type === 'image' && !!m.image?.id
+        if (aiEnabled() && ((isText && inbound.text) || isImage)) {
           try {
-            const base = wantsReset(inbound.text) ? null : prev
-            const userText = wantsReset(inbound.text) ? 'Hola' : inbound.text
-            const ai = await aiTurn(m.from, userText, base, contactName)
+            const image = isImage ? (await downloadMedia(m.image!.id)) ?? undefined : undefined
+            if (isImage && !image) {
+              const msg = { type: 'text' as const, to: m.from, body: 'No pude abrir la foto. ¿Me la mandas de nuevo, por favor?' }
+              outbox.push(msg)
+              await send(msg)
+              continue
+            }
+            const reset = !isImage && wantsReset(inbound.text!)
+            const base = reset ? null : prev
+            const userText = reset ? 'Hola' : inbound.text || ''
+            const ai = await aiTurn(m.from, userText, base, contactName, image)
             ai.session.lastMessageId = m.id
             await setSession(m.from, ai.session)
             const msg = { type: 'text' as const, to: m.from, body: ai.reply }
@@ -108,7 +118,11 @@ export async function POST(req: NextRequest) {
         await setSession(m.from, result.session)
 
         if (!isText && result.messages.length === 0) {
-          result.messages.push({ type: 'text', to: m.from, body: 'Por ahora solo puedo leer texto. ¿Me lo escribes, por favor?' })
+          result.messages.push({
+            type: 'text',
+            to: m.from,
+            body: m.type === 'audio' ? 'No puedo escuchar audios. ¿Me lo escribes, por favor?' : 'Por ahora solo puedo leer texto y fotos. ¿Me lo escribes, por favor?',
+          })
         }
         for (const msg of result.messages) {
           outbox.push(msg)

@@ -39,4 +39,4 @@ export const precios: Precio[] = [
   },
 ]
 
-export const politicaPrecios = `Precios en pesos mexicanos, por equipo. Los mantenimientos por volumen (3 o más equipos) tienen precio preferente. Todo trabajo adicional (tubería extra, materiales, albañilería) se cotiza en sitio. Si el cliente pregunta si los precios incluyen IVA, sobre facturación o formas de pago, indícale que el asesor se lo confirma al agendar.`
+export const politicaPrecios = `Precios en pesos mexicanos MÁS IVA, por equipo. Los mantenimientos por volumen (3 o más equipos) tienen precio preferente. Todo trabajo adicional (tubería extra, materiales, albañilería) y cualquier servicio que no esté en esta lista lo cotiza un asesor personalizado, normalmente tras revisión en sitio. Formas de pago: las confirma el asesor al agendar.`
