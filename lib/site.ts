@@ -20,12 +20,16 @@ export const site = {
     // Teléfono de contacto (llamadas)
     main: { display: '33 1769 9999', e164: '+523317699999' },
   },
+  // Número de WhatsApp que se publica en el sitio y en los anuncios.
+  // Cuando el asistente automático esté activo, aquí va el número nuevo del bot.
   whatsapp: {
     number: '523324568104',
     display: '33 2456 8104',
     defaultMessage:
       'Hola Climex, me gustaría cotizar un servicio de aire acondicionado.',
   },
+  // Número desde el que los asesores (personas) escriben a los clientes.
+  whatsappAsesores: { display: '33 2456 8104' },
   email: 'administracion@climexsi.com',
   address: {
     street: 'Calle Válvula #5986-A',

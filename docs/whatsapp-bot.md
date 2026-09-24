@@ -1,7 +1,7 @@
 # Asistente automático de WhatsApp (API de WhatsApp Cloud)
 
-El sitio incluye un webhook en `app/api/whatsapp/route.ts` que recibe los mensajes del
-número **33 2456 8104** y responde solo: saluda, ofrece un menú de servicios, pide tipo de
+El sitio incluye un webhook en `app/api/whatsapp/route.ts` que recibe los mensajes de un
+**número nuevo dedicado al asistente** (la "recepción") y responde solo: saluda, ofrece un menú de servicios, pide tipo de
 equipo, zona, nombre y detalle, confirma al cliente y avisa al equipo por correo (Netlify
 Forms → administracion@climexsi.com) y, opcionalmente, por WhatsApp.
 
@@ -14,10 +14,15 @@ Comandos que entiende el cliente en cualquier momento: **menu** (empezar de nuev
 
 ## Lo que hay que hacer en Meta (una sola vez)
 
-> Importante: al registrar el número en la API, ese número **deja de funcionar en la app
-> WhatsApp / WhatsApp Business del teléfono**. Los mensajes llegan al webhook y las respuestas
-> humanas se hacen desde una bandeja web o desde otro número. Antes de hacerlo, exporta o
-> respalda los chats en la app (Ajustes → Chats → Copia de seguridad).
+> Esquema de dos números:
+> - **Número nuevo (bot)**: se registra en la API. Es el que se publica en el sitio, los anuncios
+>   y la ficha de Google. Un número registrado en la API no puede usarse en la app del teléfono.
+> - **33 2456 8104 (asesores)**: sigue en el teléfono con la app de siempre para clientes
+>   antiguos y para contestar a los leads que el bot registra.
+>
+> Requisitos del número nuevo: que reciba SMS o llamada para verificarlo, y que **nunca haya
+> tenido cuenta de WhatsApp** (o que se haya eliminado la cuenta desde la app antes). Sirve una
+> SIM nueva o una línea fija que reciba llamadas.
 
 1. **Cuenta de Meta Business**: https://business.facebook.com → crear cuenta con el nombre
    "Climex Soluciones Integrales". Usa tu correo climexgdl@gmail.com.
@@ -25,8 +30,7 @@ Comandos que entiende el cliente en cualquier momento: **menu** (empezar de nuev
    *Empresa* → nombre "Climex WhatsApp" → asociar a la cuenta de Meta Business.
 3. En la app, agrega el producto **WhatsApp** → "Configuración de la API".
    - Ahí aparece un número de prueba. Para usar el real: "Agregar número de teléfono" →
-     33 2456 8104 → verificación por SMS/llamada. (El número no debe estar activo en ninguna
-     app de WhatsApp en ese momento: en el teléfono, Ajustes → Cuenta → Eliminar cuenta.)
+     el número nuevo → verificación por SMS/llamada.
    - Copia el **Phone number ID** → variable `WA_PHONE_ID`.
 4. **Token permanente**: Meta Business → Configuración del negocio → Usuarios → *Usuarios del
    sistema* → crear uno (rol Administrador) → "Generar token" → seleccionar la app, permisos
@@ -81,12 +85,17 @@ Meta solo permite escribir a alguien que no ha escrito en las últimas 24 h usan
 
 ## Cómo responden las personas
 
-Con el número en la API, los asesores no pueden contestar desde la app del teléfono. Opciones:
+El bot le dice al cliente que un asesor le escribirá desde el **33 2456 8104** (valor en
+`site.whatsappAsesores` de `lib/site.ts`). El aviso por correo trae el teléfono del cliente y un
+enlace `wa.me` para abrir el chat desde ese número. Si más adelante hace falta contestar desde
+el propio número del bot, se puede construir una bandeja web sobre la API.
 
-1. **Llamar o escribir desde otro número** (el de cada técnico). El bot le dice al cliente
-   "un asesor te contacta" y el aviso trae el teléfono del cliente. Es lo más simple.
-2. **Bandeja web**: una página del sitio para ver y contestar chats a través de la API.
-   Se puede construir después si hace falta.
+## Cuando tengas el número nuevo
+
+1. Cambia `site.whatsapp` en `lib/site.ts` al número nuevo (botones del sitio, barra móvil,
+   formulario y JSON-LD se actualizan solos) y haz push.
+2. Actualiza el vínculo "Cotiza por WhatsApp" en Google Ads y el chat de la ficha de Google.
+3. Deja el 33 2456 8104 solo en la app del teléfono.
 
 ## Probar sin Meta
 

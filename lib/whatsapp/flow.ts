@@ -153,8 +153,8 @@ function summary(to: string, s: Session, lead: Lead): OutboundMessage {
     lead.detalle && lead.detalle !== '-' ? `• Detalle: ${lead.detalle}` : null,
   ].filter(Boolean)
   const cuando = isBusinessHours()
-    ? 'Un asesor te escribe o te llama en unos minutos para darte la cotización.'
-    : `Un asesor te contacta a primera hora del siguiente día hábil (${HOURS}).`
+    ? `Un asesor te escribe o te llama en unos minutos para darte la cotización (desde el ${site.whatsappAsesores.display}).`
+    : `Un asesor te contacta a primera hora del siguiente día hábil (${HOURS}) desde el ${site.whatsappAsesores.display}.`
   void s
   return {
     type: 'text',
@@ -196,8 +196,8 @@ export function next(inb: Inbound, prev: Session | null): FlowResult {
       type: 'text',
       to,
       body: isBusinessHours()
-        ? `Claro. Ya avisé a un asesor; te escribe por aquí en unos minutos. Si prefieres, llámanos al ${site.phones.main.display}.`
-        : `Claro. Un asesor te escribe a primera hora del siguiente día hábil (${HOURS}). Si es urgente, llama al ${site.phones.main.display}.`,
+        ? `Claro. Ya avisé a un asesor; te escribe en unos minutos desde el ${site.whatsappAsesores.display}. Si prefieres, llámanos al ${site.phones.main.display}.`
+        : `Claro. Un asesor te escribe a primera hora del siguiente día hábil (${HOURS}) desde el ${site.whatsappAsesores.display}. Si es urgente, llama al ${site.phones.main.display}.`,
     })
     return { session: s, messages: msgs, lead }
   }
