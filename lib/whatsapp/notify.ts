@@ -43,8 +43,9 @@ export async function notifyTeam(lead: Lead): Promise<void> {
   }
 
   // 2) WhatsApp al equipo (plantilla aprobada; fuera de la ventana de 24 h solo se permiten plantillas)
-  const team = process.env.WA_TEAM_NUMBER
-  const template = process.env.WA_TEAM_TEMPLATE
+  // Número del equipo (Tony) y plantilla aprobada en Meta; se pueden cambiar por variables de entorno.
+  const team = process.env.WA_TEAM_NUMBER || '5213324568104'
+  const template = process.env.WA_TEAM_TEMPLATE || 'nuevo_lead'
   if (team && template) {
     tasks.push(
       send({
