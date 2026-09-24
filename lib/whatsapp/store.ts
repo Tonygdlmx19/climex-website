@@ -23,6 +23,10 @@ export type Session = {
   profileName?: string
   updatedAt: number
   lastMessageId?: string
+  /** Modo IA: historial de la conversación (últimos turnos) */
+  history?: { role: 'user' | 'assistant'; content: string }[]
+  /** Modo IA: ya se envió el lead al equipo en esta conversación */
+  leadSent?: boolean
 }
 
 const memory = new Map<string, Session>()

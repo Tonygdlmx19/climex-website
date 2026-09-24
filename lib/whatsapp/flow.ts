@@ -27,7 +27,11 @@ export type Lead = {
   equipo: string
   zona: string
   detalle: string
-  origen: 'bot' | 'asesor'
+  origen: 'bot' | 'asesor' | 'ia'
+  /** Preferencia de día/horario para la visita (modo IA) */
+  horario?: string
+  /** Resumen de la conversación hecho por la IA */
+  resumen?: string
 }
 
 export type FlowResult = { session: Session; messages: OutboundMessage[]; lead?: Lead }
@@ -56,7 +60,7 @@ const norm = (s = '') =>
   s
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .trim()
 
 const wantsHuman = (t: string) => /\b(asesor|persona|humano|agente|llamar|llamenme|llámenme)\b/.test(t)

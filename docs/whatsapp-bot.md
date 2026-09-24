@@ -108,3 +108,13 @@ curl -s -X POST http://localhost:3001/api/whatsapp -H 'Content-Type: application
 ```
 
 Para cambiar textos o preguntas, edita `lib/whatsapp/flow.ts`.
+
+## Modo IA (asistente conversacional)
+
+Con la variable `ANTHROPIC_API_KEY` en Netlify, el webhook deja de usar el menú y conversa con
+Claude (`lib/whatsapp/ai.ts`): asesora, responde con la lista de precios de
+`lib/whatsapp/precios.ts` y, cuando el cliente quiere agendar, registra el lead (correo +
+plantilla) con nombre, servicio, equipo, zona, detalle, horario preferido y resumen. Un asesor
+confirma la cita desde el 33 2456 8104. Si el cliente pide una persona, avisa al equipo.
+Sin clave, o si la IA falla, se usa el menú guiado. `ANTHROPIC_MODEL` cambia el modelo
+(por defecto `claude-sonnet-5`). El cliente puede escribir "menu" para empezar de cero.

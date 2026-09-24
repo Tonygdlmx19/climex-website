@@ -10,6 +10,8 @@
  *  WA_APP_SECRET       "App secret" de la app de Meta (valida la firma de cada webhook)
  *  WA_TEAM_NUMBER      (opcional) número del equipo en formato 521XXXXXXXXXX para avisos
  *  WA_TEAM_TEMPLATE    (opcional) nombre de la plantilla aprobada para el aviso
+ *  ANTHROPIC_API_KEY   (opcional) activa el asistente conversacional con IA (lib/whatsapp/ai.ts);
+ *                      sin ella se usa el menú guiado (lib/whatsapp/flow.ts)
  */
 import { createHmac, timingSafeEqual } from 'node:crypto'
 import { NextRequest, NextResponse } from 'next/server'
@@ -17,6 +19,7 @@ import { next as advance, type Inbound } from '@/lib/whatsapp/flow'
 import { getSession, setSession } from '@/lib/whatsapp/store'
 import { send, markRead, dryRun } from '@/lib/whatsapp/api'
 import { notifyTeam } from '@/lib/whatsapp/notify'
+import { aiEnabled, aiTurn, wantsReset } from '@/lib/whatsapp/ai'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -79,12 +82,32 @@ export async function POST(req: NextRequest) {
         const prev = await getSession(m.from)
         if (prev?.lastMessageId === m.id) continue // Meta reintenta: no procesar dos veces
 
+        await markRead(m.id)
+        const isText = m.type === 'text' || m.type === 'interactive' || m.type === 'button'
+
+        // Modo IA (conversación natural) si hay clave; si falla, cae al menú guiado.
+        if (aiEnabled() && isText && inbound.text) {
+          try {
+            const base = wantsReset(inbound.text) ? null : prev
+            const userText = wantsReset(inbound.text) ? 'Hola' : inbound.text
+            const ai = await aiTurn(m.from, userText, base, contactName)
+            ai.session.lastMessageId = m.id
+            await setSession(m.from, ai.session)
+            const msg = { type: 'text' as const, to: m.from, body: ai.reply }
+            outbox.push(msg)
+            await send(msg)
+            if (ai.lead) await notifyTeam(ai.lead)
+            continue
+          } catch (e) {
+            console.error('[whatsapp] IA falló, usando menú guiado', e)
+          }
+        }
+
         const result = advance(inbound, prev)
         result.session.lastMessageId = m.id
         await setSession(m.from, result.session)
-        await markRead(m.id)
 
-        if (m.type !== 'text' && m.type !== 'interactive' && m.type !== 'button' && result.messages.length === 0) {
+        if (!isText && result.messages.length === 0) {
           result.messages.push({ type: 'text', to: m.from, body: 'Por ahora solo puedo leer texto. ¿Me lo escribes, por favor?' })
         }
         for (const msg of result.messages) {
