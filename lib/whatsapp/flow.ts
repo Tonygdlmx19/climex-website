@@ -6,8 +6,8 @@
  * cliente puede escribir "asesor" para hablar con una persona o "menu" para
  * empezar de nuevo.  Fuera de horario se avisa cuándo se responde.
  */
-import { site } from '@/lib/site'
-import { faqs } from '@/lib/faq'
+import { site } from '../site'
+import { faqs } from '../faq'
 import { isBusinessHours } from './hours'
 import type { OutboundMessage } from './api'
 import type { Session } from './store'

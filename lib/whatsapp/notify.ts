@@ -3,7 +3,7 @@
  *  1) Netlify Forms (formulario "lead-whatsapp") → correo a administracion@…
  *  2) Plantilla de WhatsApp al número del equipo (opcional, requiere plantilla aprobada en Meta).
  */
-import { site } from '@/lib/site'
+import { site } from '../site'
 import { send, dryRun } from './api'
 import type { Lead } from './flow'
 

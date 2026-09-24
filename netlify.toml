@@ -5,6 +5,10 @@
 [build.environment]
   NODE_VERSION = "20"
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # Dominio anterior (Jimdo): cuando climexsi.com.mx apunte a Netlify, todo su
 # tráfico se redirige con 301 al dominio nuevo conservando la ruta.
 [[redirects]]
