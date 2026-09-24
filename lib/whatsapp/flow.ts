@@ -30,6 +30,8 @@ export type Lead = {
   origen: 'bot' | 'asesor' | 'ia'
   /** Preferencia de día/horario para la visita (modo IA) */
   horario?: string
+  /** Acceso para el técnico: azotea, escalera marina, escalera necesaria y altura (modo IA) */
+  acceso?: string
   /** Resumen de la conversación hecho por la IA */
   resumen?: string
 }

@@ -21,6 +21,7 @@ export async function notifyTeam(lead: Lead): Promise<void> {
       zona: lead.zona,
       detalle: lead.detalle,
       horario: lead.horario || '-',
+      acceso: lead.acceso || '-',
       resumen: lead.resumen || '-',
       origen:
         lead.origen === 'asesor'
@@ -49,7 +50,7 @@ export async function notifyTeam(lead: Lead): Promise<void> {
         to: team,
         name: template,
         lang: process.env.WA_TEAM_TEMPLATE_LANG || 'es_MX',
-        params: [lead.nombre, lead.servicio, lead.equipo || '-', lead.zona, `${lead.detalle}${lead.horario ? ` · Horario: ${lead.horario}` : ''}`, `+${lead.telefono}`],
+        params: [lead.nombre, lead.servicio, lead.equipo || '-', lead.zona, `${lead.detalle}${lead.horario ? ` · Horario: ${lead.horario}` : ''}${lead.acceso ? ` · Acceso: ${lead.acceso}` : ''}`, `+${lead.telefono}`],
       })
     )
   }

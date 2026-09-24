@@ -56,7 +56,7 @@ TU OBJETIVO
 5) Si el cliente pide hablar con una persona, o si detectas enojo, una queja de garantía, o algo que no puedes resolver, llama a pasar_a_asesor.
 
 DATOS PARA registrar_lead (pídelos de forma conversacional, uno o dos por mensaje, sin cuestionario):
-- nombre, servicio (mantenimiento / reparación / instalación / venta de equipo / proyecto comercial), tipo de equipo y capacidad si la sabe, colonia o municipio, detalle del problema o necesidad, y preferencia de día y horario para la visita.
+- nombre, servicio (mantenimiento / reparación / instalación / venta de equipo / proyecto comercial), tipo de equipo y capacidad si la sabe, cuántos equipos, colonia o municipio, detalle del problema o necesidad, acceso para el técnico (azotea, escalera marina o escalera necesaria y altura), y preferencia de día y horario para la visita.
 - Si ya sabes algo por la conversación, no lo vuelvas a preguntar. El nombre del perfil de WhatsApp es "${session.profileName ?? 'desconocido'}"; confírmalo en vez de pedirlo desde cero.
 - Antes de registrar, haz un resumen corto y pide confirmación ("¿Lo registro así?"). Después de registrar, despídete indicando que un asesor le escribe desde el ${site.whatsappAsesores.display} y, si es urgente, que llame al ${site.phones.main.display}.
 - El campo "resumen" de registrar_lead es para el asesor y debe ser COMPLETO: equipo (marca, modelo, capacidad, tipo, antigüedad), síntomas y desde cuándo, lo que se vio en las fotos, qué precios se le mencionaron, urgencia, dudas pendientes (IVA, factura, forma de pago) y cualquier dato útil para llegar preparado. Hasta 10 líneas.
@@ -70,6 +70,8 @@ Guion por servicio (adáptalo a la conversación, no lo recites):
 - INSTALACIÓN: ¿ya tiene el equipo o necesita que se lo vendamos? ¿capacidad? ¿tamaño del espacio en m² y para qué se usa? ¿distancia aproximada entre la unidad interior y la exterior (la básica incluye 4 m de tubería; el excedente se cotiza)? ¿ya hay instalación eléctrica cerca o hay que hacerla ($900 más IVA más materiales)? ¿en qué piso y hay acceso para la unidad exterior? Pide foto del lugar. Cotiza la instalación básica ($2,500 más IVA) explicando qué incluye y qué se cotiza aparte.
 - VENTA DE EQUIPO: ¿m² del espacio, orientación y uso (recámara, oficina, local)? ¿marca preferida? ¿incluye instalación? Recomienda capacidad aproximada y ofrece que el asesor mande opciones y precios de equipos (los equipos no están en la lista de precios).
 - PROYECTO COMERCIAL: tipo de espacio, m², número de equipos o áreas, si hay planos, plazo. Siempre va a asesor con visita técnica.
+
+ACCESO PARA EL TÉCNICO (pregúntalo SIEMPRE antes de registrar el lead, en cualquier servicio): ¿dónde está la unidad exterior o el equipo (azotea, patio, muro, fachada)? Si está en azotea o en alto: ¿hay escalera marina o acceso fijo a la azotea? ¿o el técnico debe llevar escalera, y de qué altura aproximada (un piso, dos pisos, más)? ¿hay algún obstáculo (tapanco, tinacos, espacio reducido)? Anota la respuesta en el campo "acceso" de registrar_lead; es clave para que el técnico llegue con el equipo correcto.
 
 Al dar un precio: di qué incluye, qué no incluye, que es más IVA y, si aplica, la garantía. Después pregunta si quiere agendar o si tiene otra duda.
 
@@ -117,9 +119,13 @@ const tools = [
         zona: { type: 'string', description: 'colonia y municipio' },
         detalle: { type: 'string', description: 'problema o necesidad, en una o dos frases' },
         horario: { type: 'string', description: 'día y horario preferido por el cliente para la visita' },
+        acceso: {
+          type: 'string',
+          description: 'acceso para el técnico: ubicación del equipo (azotea, patio, muro), si hay escalera marina o acceso fijo, o si se requiere escalera y de qué altura; obstáculos',
+        },
         resumen: { type: 'string', description: 'contexto completo para el asesor: equipo/marca/modelo/capacidad, síntomas, fotos analizadas, precios mencionados, urgencia, dudas pendientes (hasta 10 líneas)' },
       },
-      required: ['nombre', 'servicio', 'zona', 'detalle', 'horario', 'resumen'],
+      required: ['nombre', 'servicio', 'zona', 'detalle', 'horario', 'acceso', 'resumen'],
     },
   },
   {
@@ -208,6 +214,7 @@ export async function aiTurn(
           zona: input.zona || 'Por definir',
           detalle: input.detalle || '-',
           horario: input.horario,
+          acceso: input.acceso,
           resumen: input.resumen,
           origen: 'ia',
         }
