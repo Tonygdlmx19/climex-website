@@ -29,6 +29,11 @@ export type Session = {
   leadSent?: boolean
   /** Diagnóstico: motivo de la última respuesta vacía de la IA */
   lastEmptyReason?: string
+  /** Seguimiento: última vez que habló el bot / el cliente, último texto del cliente y recordatorios enviados (0-3) */
+  lastBotAt?: number
+  lastUserAt?: number
+  lastUserText?: string
+  followups?: number
 }
 
 const memory = new Map<string, Session>()
@@ -94,4 +99,22 @@ export async function readLog(): Promise<LogEntry[]> {
   const store = blobs()
   if (!store) return []
   return ((await store.get('log', { type: 'json' })) as LogEntry[] | null) ?? []
+}
+
+/** Lista todas las sesiones (para el seguimiento programado). En local devuelve las de memoria. */
+export async function listSessions(): Promise<{ phone: string; session: Session }[]> {
+  const store = blobs()
+  if (!store) return Array.from(memory.entries()).map(([phone, session]) => ({ phone, session }))
+  const out: { phone: string; session: Session }[] = []
+  try {
+    const { blobs: items } = await store.list()
+    for (const b of items) {
+      if (b.key === 'log') continue
+      const session = (await store.get(b.key, { type: 'json' })) as Session | null
+      if (session) out.push({ phone: b.key, session })
+    }
+  } catch (e) {
+    console.error('[whatsapp] listSessions', e)
+  }
+  return out
 }

@@ -66,6 +66,10 @@ export async function processWebhook(body: unknown): Promise<OutboundMessage[]> 
             const userText = reset ? 'Hola' : inbound.text || ''
             const ai = await aiTurn(m.from, userText, base, contactName, image)
             ai.session.lastMessageId = m.id
+            ai.session.lastUserAt = Date.now()
+            ai.session.lastUserText = (userText || (isImage ? '[foto]' : '')).slice(0, 120)
+            ai.session.followups = 0
+            ai.session.lastBotAt = Date.now()
             await setSession(m.from, ai.session)
             const msg: OutboundMessage = { type: 'text', to: m.from, body: ai.reply }
             outbox.push(msg)

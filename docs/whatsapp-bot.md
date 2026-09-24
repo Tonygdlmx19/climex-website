@@ -118,3 +118,10 @@ plantilla) con nombre, servicio, equipo, zona, detalle, horario preferido y resu
 confirma la cita desde el 33 2456 8104. Si el cliente pide una persona, avisa al equipo.
 Sin clave, o si la IA falla, se usa el menú guiado. `ANTHROPIC_MODEL` cambia el modelo
 (por defecto `claude-sonnet-5`). El cliente puede escribir "menu" para empezar de cero.
+
+## Seguimiento de conversaciones a medias
+
+`netlify/functions/whatsapp-followups.mts` corre cada 3 minutos y, para conversaciones sin lead
+registrado donde el bot habló al último: a los 5 min manda un recordatorio, a la hora otro, y una
+hora después una despedida cordial. No insiste si el cliente se despidió ni fuera de la ventana de
+24 h. Textos en `lib/whatsapp/followups.ts`. Prueba manual: `/api/whatsapp/test-notify?key=…&followups=1`.

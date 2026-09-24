@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { notifyTeam } from '@/lib/whatsapp/notify'
 import { readLog } from '@/lib/whatsapp/store'
 import { send } from '@/lib/whatsapp/api'
+import { runFollowups } from '@/lib/whatsapp/followups'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -18,6 +19,9 @@ export async function GET(req: NextRequest) {
   if (to) {
     const r = await send({ type: 'text', to, body: `Prueba de envío directo de Climex a ${to} (${new Date().toLocaleTimeString('es-MX', { timeZone: 'America/Mexico_City' })})` })
     return NextResponse.json({ ok: true, to, result: r })
+  }
+  if (req.nextUrl.searchParams.get('followups')) {
+    return NextResponse.json({ ok: true, report: await runFollowups() })
   }
   if (req.nextUrl.searchParams.get('log')) {
     return NextResponse.json({ ok: true, log: await readLog() })
