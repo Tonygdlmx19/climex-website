@@ -24,6 +24,11 @@ Node 20 (ver `.nvmrc`).
 | Colores de marca (cian y azul marino del logo) | `tailwind.config.js` |
 | Menú principal | `navigation` en `lib/site.ts` |
 
+## Asistente de WhatsApp
+
+El webhook `app/api/whatsapp` contesta solo los mensajes del número de WhatsApp usando la API de
+WhatsApp Cloud. Configuración completa en [`docs/whatsapp-bot.md`](docs/whatsapp-bot.md).
+
 ## Formulario de cotización (Netlify Forms)
 
 El formulario `cotizacion` se envía a Netlify Forms. Para que Netlify lo detecte existe

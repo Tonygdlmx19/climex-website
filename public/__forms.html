@@ -16,5 +16,19 @@
       <textarea name="mensaje"></textarea>
       <button type="submit">Enviar</button>
     </form>
+
+    <!-- Leads que registra el asistente de WhatsApp (app/api/whatsapp) -->
+    <form name="lead-whatsapp" data-netlify="true" method="POST" action="/">
+      <input type="hidden" name="form-name" value="lead-whatsapp" />
+      <input name="telefono" type="text" />
+      <input name="nombre" type="text" />
+      <input name="servicio" type="text" />
+      <input name="equipo" type="text" />
+      <input name="zona" type="text" />
+      <textarea name="detalle"></textarea>
+      <input name="origen" type="text" />
+      <input name="chat" type="text" />
+      <button type="submit">Enviar</button>
+    </form>
   </body>
 </html>
