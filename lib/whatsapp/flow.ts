@@ -95,11 +95,9 @@ function faqAnswer(t: string): string | undefined {
 }
 
 function greeting(name?: string): string {
-  const hi = name ? `¡Hola, ${name.split(' ')[0]}! 👋` : '¡Hola! 👋'
-  const away = isBusinessHours()
-    ? ''
-    : `\n\n⏰ Ahora estamos fuera de horario (${HOURS}). Déjanos tus datos y te contactamos a primera hora.`
-  return `${hi} Soy el asistente de *Climex Soluciones Integrales*, aire acondicionado en Guadalajara.\n\nCuéntame qué necesitas y te ayudo a cotizar en un minuto.${away}`
+  void name
+  const away = isBusinessHours() ? '' : `\n\n⏰ Estamos fuera de horario (${HOURS}); te contactamos a primera hora.`
+  return `Hola 👋 Soy el asistente virtual de *CLIMEX Soluciones Integrales*. ¿Cómo puedo ayudarte?${away}`
 }
 
 const menuMessage = (to: string, body: string): OutboundMessage => ({
@@ -113,14 +111,14 @@ const menuMessage = (to: string, body: string): OutboundMessage => ({
 const equipoMessage = (to: string, servicio: string): OutboundMessage => ({
   type: 'buttons',
   to,
-  body: `Perfecto, *${serviceTitle(servicio).toLowerCase()}*. ¿Qué tipo de equipo es?`,
+  body: `Con gusto. ¿Qué tipo de equipo es?`,
   buttons: EQUIPOS,
 })
 
 const zonaMessage = (to: string): OutboundMessage => ({
   type: 'text',
   to,
-  body: '¿En qué colonia o municipio está el equipo? (por ejemplo: Providencia, Zapopan)',
+  body: '¿En qué colonia o municipio está el equipo?',
 })
 
 const nombreMessage = (to: string, profileName?: string): OutboundMessage =>
@@ -128,20 +126,20 @@ const nombreMessage = (to: string, profileName?: string): OutboundMessage =>
     ? {
         type: 'buttons',
         to,
-        body: `¿A nombre de quién hacemos la cotización?`,
+        body: `¿A nombre de quién va la cotización?`,
         buttons: [{ id: 'name_profile', title: profileName.slice(0, 20) }, { id: 'name_other', title: 'Otro nombre' }],
       }
-    : { type: 'text', to, body: '¿A nombre de quién hacemos la cotización?' }
+    : { type: 'text', to, body: '¿A nombre de quién va la cotización?' }
 
 function detalleMessage(to: string, servicio?: string): OutboundMessage {
   const body =
     servicio === 'srv_reparacion'
-      ? 'Cuéntame brevemente qué falla tiene el equipo (no enfría, gotea, no enciende, hace ruido, etc.).'
+      ? '¿Qué falla tiene el equipo? (no enfría, gotea, no enciende, ruido…)'
       : servicio === 'srv_venta'
-        ? '¿Para qué espacio es el equipo y de cuántos metros aproximadamente? Si ya tienes una marca o capacidad en mente, dímelo.'
+        ? '¿Para qué espacio es y de cuántos metros aprox.? Si tienes marca o capacidad en mente, dímelo.'
         : servicio === 'srv_proyecto'
-          ? 'Cuéntame brevemente del proyecto: tipo de espacio, metros aproximados y cuántos equipos.'
-          : '¿Algo más que debamos saber? (cantidad de equipos, urgencia, acceso, etc.). Si no, escribe "no".'
+          ? 'Cuéntame del proyecto: tipo de espacio, metros aprox. y cuántos equipos.'
+          : '¿Algo más que debamos saber? Si no, escribe "no".'
   return { type: 'text', to, body }
 }
 
@@ -153,13 +151,13 @@ function summary(to: string, s: Session, lead: Lead): OutboundMessage {
     lead.detalle && lead.detalle !== '-' ? `• Detalle: ${lead.detalle}` : null,
   ].filter(Boolean)
   const cuando = isBusinessHours()
-    ? `Un asesor te escribe o te llama en unos minutos para darte la cotización (desde el ${site.whatsappAsesores.display}).`
-    : `Un asesor te contacta a primera hora del siguiente día hábil (${HOURS}) desde el ${site.whatsappAsesores.display}.`
+    ? `En unos minutos un asesor te escribe desde el ${site.whatsappAsesores.display} con tu cotización.`
+    : `Un asesor te escribe desde el ${site.whatsappAsesores.display} a primera hora del siguiente día hábil.`
   void s
   return {
     type: 'text',
     to,
-    body: `✅ Listo, *${lead.nombre.split(' ')[0]}*. Registré tu solicitud:\n${datos.join('\n')}\n\n${cuando}\nSi es urgente, llámanos al ${site.phones.main.display}.\n\nEscribe *menu* si quieres cotizar otro servicio.`,
+    body: `✅ Listo, *${lead.nombre.split(' ')[0]}*. Tu solicitud:\n${datos.join('\n')}\n\n${cuando}\nUrgencias: ${site.phones.main.display}.`,
   }
 }
 
@@ -196,8 +194,8 @@ export function next(inb: Inbound, prev: Session | null): FlowResult {
       type: 'text',
       to,
       body: isBusinessHours()
-        ? `Claro. Ya avisé a un asesor; te escribe en unos minutos desde el ${site.whatsappAsesores.display}. Si prefieres, llámanos al ${site.phones.main.display}.`
-        : `Claro. Un asesor te escribe a primera hora del siguiente día hábil (${HOURS}) desde el ${site.whatsappAsesores.display}. Si es urgente, llama al ${site.phones.main.display}.`,
+        ? `Claro. Un asesor te escribe en unos minutos desde el ${site.whatsappAsesores.display}. O llámanos al ${site.phones.main.display}.`
+        : `Claro. Un asesor te escribe desde el ${site.whatsappAsesores.display} a primera hora del siguiente día hábil. Urgencias: ${site.phones.main.display}.`,
     })
     return { session: s, messages: msgs, lead }
   }
@@ -219,7 +217,7 @@ export function next(inb: Inbound, prev: Session | null): FlowResult {
         msgs.push({
           type: 'text',
           to,
-          body: `Con gusto. Cuéntame por aquí qué necesitas y un asesor te responde ${isBusinessHours() ? 'en unos minutos' : `en horario de oficina (${HOURS})`}.`,
+          body: `Con gusto. Cuéntame qué necesitas y un asesor te responde ${isBusinessHours() ? 'en unos minutos' : 'en horario de oficina'}.`,
         })
         return { session: s, messages: msgs, lead }
       }
@@ -227,7 +225,7 @@ export function next(inb: Inbound, prev: Session | null): FlowResult {
         s = { ...s, servicio: picked, step: 'equipo' }
         if (picked === 'srv_proyecto') {
           s.step = 'zona'
-          msgs.push({ type: 'text', to, body: 'Perfecto, un *proyecto comercial*. Te hacemos unas preguntas rápidas.' }, zonaMessage(to))
+          msgs.push({ type: 'text', to, body: '¿En qué colonia o municipio está el proyecto?' })
         } else {
           msgs.push(equipoMessage(to, picked))
         }
@@ -306,7 +304,7 @@ export function next(inb: Inbound, prev: Session | null): FlowResult {
       msgs.push({
         type: 'text',
         to,
-        body: `Recibido. Un asesor te contacta ${isBusinessHours() ? 'en unos minutos' : 'en horario de oficina'}. Escribe *menu* para cotizar otro servicio o *asesor* para hablar con una persona.`,
+        body: `Recibido. Un asesor te contacta ${isBusinessHours() ? 'en unos minutos' : 'en horario de oficina'}. Escribe *menu* para otra cotización.`,
       })
       return { session: s, messages: msgs }
     }
