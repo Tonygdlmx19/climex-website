@@ -85,12 +85,12 @@ export default function Header() {
           </span>
         </Link>
 
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul className="hidden items-center gap-0.5 lg:flex">
           {navigation.map((item) => (
             <li key={item.href}>
               <Link
                 href={item.href}
-                className={`rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${
+                className={`rounded-full px-3 py-2 text-sm font-semibold transition-colors ${
                   isActive(item.href)
                     ? 'bg-navy-50 text-navy-700'
                     : 'text-slate-600 hover:bg-mist hover:text-ink'
@@ -106,7 +106,7 @@ export default function Header() {
           <a
             href={`tel:${site.phones.main.e164}`}
             onClick={() => track('contact_call', { location: 'header' })}
-            className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-bold text-navy-700 hover:bg-navy-50"
+            className="hidden items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-sm font-bold text-navy-700 hover:bg-navy-50 xl:inline-flex"
           >
             <Phone className="h-4 w-4" aria-hidden="true" />
             <span className="tabular">{site.phones.main.display}</span>
