@@ -19,6 +19,7 @@ const empresa = [
   { name: 'Opiniones', href: '/#opiniones' },
   { name: 'Preguntas frecuentes', href: '/#preguntas' },
   { name: 'Contacto', href: '/contacto' },
+  { name: 'Garantías', href: '/garantias' },
   { name: 'Aviso de privacidad', href: '/privacidad' },
 ]
 

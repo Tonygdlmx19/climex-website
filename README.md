@@ -23,6 +23,8 @@ Node 20 (ver `.nvmrc`).
 | Opiniones de Google | `components/home/Testimonials.tsx` |
 | Colores de marca (cian y azul marino del logo) | `tailwind.config.js` |
 | Menú principal | `navigation` en `lib/site.ts` |
+| Póliza de garantía (página /garantias) | `app/garantias/page.tsx` |
+| Póliza de garantía en PDF | edita `docs/garantia/garantia-climex.html` y corre `./scripts/build-garantia-pdf.sh` (usa Google Chrome); genera `public/garantia-climex.pdf` |
 
 ## Asistente de WhatsApp
 

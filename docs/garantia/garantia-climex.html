@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<title>Póliza de garantía — Climex Soluciones Integrales</title>
+<style>
+  @page { size: Letter; margin: 16mm 16mm 18mm 16mm; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #0F1B33; font-size: 10pt; line-height: 1.45;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  a { color: #0088B8; text-decoration: none; }
+  h1, h2, h3 { margin: 0; line-height: 1.2; }
+  p { margin: 0 0 6pt; }
+  ul { margin: 0 0 6pt; padding-left: 16pt; }
+  li { margin-bottom: 3pt; }
+
+  .head { display: flex; align-items: center; justify-content: space-between; border-bottom: 2.5pt solid #00A9E0; padding-bottom: 10pt; }
+  .head img { height: 58pt; }
+  .head .meta { text-align: right; font-size: 8.5pt; color: #526078; line-height: 1.45; }
+  .head .meta strong { display: block; color: #0F1B33; font-size: 9.5pt; }
+
+  .title { margin-top: 16pt; }
+  .eyebrow { font-size: 8pt; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #0088B8; }
+  h1 { font-size: 22pt; font-weight: 800; color: #0F1B33; margin-top: 4pt; }
+  .lead { margin-top: 6pt; color: #3B4A63; font-size: 10.5pt; max-width: 130mm; }
+
+  .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8pt; margin: 12pt 0 12pt; }
+  .summary div { background: #EBF8FE; border: 1pt solid #A6DEF9; border-radius: 8pt; padding: 9pt 10pt; }
+  .summary .n { display: block; font-size: 17pt; font-weight: 800; color: #0088B8; line-height: 1.1; }
+  .summary .l { display: block; font-size: 8.5pt; color: #3B4A63; margin-top: 2pt; }
+
+  section { margin-top: 12pt; }
+  h2 { font-size: 12pt; font-weight: 800; color: #2B3990; padding-left: 9pt; border-left: 3pt solid #00A9E0; margin-bottom: 6pt; break-after: avoid; }
+  table, .box, ol.steps, .form, .note, .summary { break-inside: avoid; }
+  h3 { font-size: 10.5pt; font-weight: 700; color: #0F1B33; margin: 8pt 0 3pt; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 4pt 0 6pt; }
+  th, td { text-align: left; vertical-align: top; padding: 6pt 8pt; border-bottom: 1pt solid #DDE5EE; }
+  th { background: #F4F8FB; font-size: 8pt; text-transform: uppercase; letter-spacing: .08em; color: #526078; }
+  td.v { font-weight: 800; color: #0088B8; white-space: nowrap; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; align-items: start; }
+  .box { border: 1pt solid #DDE5EE; border-radius: 8pt; padding: 10pt 12pt; }
+  .box.ok { background: #F1FBF5; border-color: #BFE8CF; }
+  .box.no { background: #FFF6F5; border-color: #F5C9C3; }
+  .box h3 { margin-top: 0; }
+  .box.ok h3 { color: #1B7F45; }
+  .box.no h3 { color: #B4362A; }
+
+  ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 4pt 0 6pt; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8pt; }
+  ol.steps li { counter-increment: s; background: #F4F8FB; border-radius: 8pt; padding: 9pt 10pt 9pt 10pt; font-size: 9.5pt; margin: 0; }
+  ol.steps li::before { content: counter(s); display: inline-flex; align-items: center; justify-content: center; width: 18pt; height: 18pt; border-radius: 50%; background: #00A9E0; color: #fff; font-weight: 800; font-size: 9.5pt; margin-bottom: 5pt; }
+  ol.steps li b { display: block; color: #0F1B33; }
+
+  .note { background: #F4F8FB; border-radius: 8pt; padding: 8pt 11pt; font-size: 9pt; color: #3B4A63; }
+  .small { font-size: 8.5pt; color: #526078; }
+
+  .form { border: 1pt solid #DDE5EE; border-radius: 8pt; padding: 10pt 12pt; }
+  .form .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6pt 16pt; margin-top: 4pt; }
+  .form .f { border-bottom: 1pt solid #B4BAE6; padding: 8pt 0 3pt; font-size: 8.5pt; color: #526078; }
+  .form .f.wide { grid-column: 1 / -1; }
+  .sign { display: grid; grid-template-columns: 1fr 1fr; gap: 24pt; margin-top: 22pt; }
+  .sign div { border-top: 1pt solid #0F1B33; padding-top: 4pt; font-size: 8.5pt; color: #526078; text-align: center; }
+
+  .foot { margin-top: 16pt; border-top: 1pt solid #DDE5EE; padding-top: 8pt; display: flex; justify-content: space-between; gap: 12pt; font-size: 8.5pt; color: #526078; }
+  .foot b { color: #0F1B33; }
+</style>
+</head>
+<body>
+
+<header class="head">
+  <img src="../../public/images/logoClimex.png" alt="Climex Soluciones Integrales">
+  <div class="meta">
+    <strong>Climex Soluciones Integrales</strong>
+    Calle Válvula #5986-A, Col. Álamo Industrial<br>
+    Guadalajara, Jalisco, C.P. 44490<br>
+    Tel. 33 1769 9999 · WhatsApp 33 3405 7824<br>
+    administracion@climexsi.com · climexsi.com
+  </div>
+</header>
+
+<div class="title">
+  <span class="eyebrow">Garantía por escrito</span>
+  <h1>Póliza de garantía de servicios</h1>
+  <p class="lead">Aplicable a los trabajos de instalación, reparación y mantenimiento de aire acondicionado realizados por Climex Soluciones Integrales.</p>
+</div>
+
+<div class="summary">
+  <div><span class="n">90 días</span><span class="l">en mano de obra de instalación y reparación</span></div>
+  <div><span class="n">30 días</span><span class="l">en servicio de mantenimiento preventivo</span></div>
+  <div><span class="n">De fábrica</span><span class="l">en equipos nuevos y refacciones, según cada fabricante</span></div>
+</div>
+
+<section>
+  <h2>1. Alcance</h2>
+  <p>La presente póliza de garantía aplica a los trabajos de instalación, reparación y mantenimiento de equipos de aire acondicionado que realice Climex Soluciones Integrales (en adelante, "Climex"), en servicio residencial, comercial e industrial. La garantía respalda la mano de obra de nuestros técnicos y los trabajos descritos en la nota de servicio, cotización o factura correspondiente.</p>
+</section>
+
+<section>
+  <h2>2. Vigencias</h2>
+  <p>Climex se obliga a responder por fallas técnicas en los trabajos realizados conforme a las siguientes vigencias:</p>
+  <table>
+    <thead><tr><th>Servicio</th><th>Vigencia</th><th>Qué respalda</th></tr></thead>
+    <tbody>
+      <tr><td>Instalación de equipos</td><td class="v">90 días (3 meses)</td><td>Fallas técnicas en la mano de obra de instalación: conexiones de tubería, cableado eléctrico realizado por Climex, drenaje, fijación y puesta en marcha.</td></tr>
+      <tr><td>Reparación</td><td class="v">90 días (3 meses)</td><td>Fallas técnicas en la mano de obra de la reparación realizada. Las refacciones nuevas conservan además la garantía de su fabricante.</td></tr>
+      <tr><td>Mantenimiento preventivo</td><td class="v">30 días (1 mes)</td><td>Fallas técnicas que sean consecuencia directa del servicio de mantenimiento preventivo.</td></tr>
+    </tbody>
+  </table>
+  <p>La garantía inicia en la fecha de entrega de los trabajos, indicada en la nota de servicio o factura, y termina al cumplirse el plazo señalado. Los trabajos de corrección realizados en garantía no reinician ni extienden la vigencia original.</p>
+</section>
+
+<section>
+  <h2>3. Cobertura y exclusiones</h2>
+  <div class="cols">
+    <div class="box ok">
+      <h3>Sí cubre</h3>
+      <ul>
+        <li>La visita de revisión y la mano de obra para corregir una falla atribuible al trabajo realizado por Climex.</li>
+        <li>Los materiales menores necesarios para dicha corrección (soldadura, cinta, aislamiento, sujeción).</li>
+        <li>Fugas de refrigerante en uniones o soldaduras hechas por Climex durante la vigencia.</li>
+        <li>Fallas de drenaje, fijación o conexión eléctrica derivadas de la instalación realizada por Climex.</li>
+      </ul>
+    </div>
+    <div class="box no">
+      <h3>No cubre</h3>
+      <ul>
+        <li>En mantenimiento preventivo: partes o piezas que resulten defectuosas o desgastadas, ni ningún consumible (gas refrigerante, capacitores, filtros, fusibles, etc.).</li>
+        <li>Fallas de fábrica del equipo o de refacciones: se atienden con la garantía del fabricante (ver punto 5).</li>
+        <li>Uso excesivo o distinto al indicado por el fabricante, y falta de mantenimiento periódico.</li>
+        <li>Mala calidad de los materiales que el cliente entregue para la ejecución de los trabajos.</li>
+        <li>Modificaciones, reparaciones o manipulación realizadas por el cliente o por terceros.</li>
+        <li>Afectaciones directas por otros trabajos que realice el cliente (obra civil, remodelación, plomería, etc.).</li>
+        <li>Cortos circuitos, variaciones o fallas en el suministro eléctrico, golpes, incendios, inundaciones o desastres naturales.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>4. Cómo hacer válida tu garantía</h2>
+  <ol class="steps">
+    <li><b>Repórtanos la falla</b>Escríbenos por WhatsApp al 33 3405 7824, llama al 33 1769 9999 o envía un correo a administracion@climexsi.com con tu nombre, número de nota o factura y una breve descripción del problema.</li>
+    <li><b>Programamos la revisión</b>Agendamos una visita técnica con prioridad, en el horario de servicio (lunes a viernes de 9:00 a 18:00 y sábados de 9:00 a 14:00).</li>
+    <li><b>Diagnóstico y solución</b>Si la falla está cubierta, la corregimos sin costo. Si no lo está, te lo explicamos con claridad y te entregamos una cotización por escrito antes de realizar cualquier trabajo.</li>
+  </ol>
+  <h3>Requisitos</h3>
+  <ul>
+    <li>Presentar la nota de servicio, remisión o factura del trabajo realizado por Climex.</li>
+    <li>Reportar la falla dentro de la vigencia de la garantía.</li>
+    <li>Que el equipo o la instalación no haya sido intervenido por personal ajeno a Climex desde la entrega del trabajo.</li>
+    <li>Permitir el acceso al equipo y a la instalación en la fecha y hora acordadas.</li>
+  </ul>
+</section>
+
+<section style="break-inside: avoid">
+  <h2>5. Garantía de equipos nuevos y refacciones</h2>
+  <p>La garantía de unidades nuevas y refacciones la otorga directamente el fabricante, dentro de los plazos y condiciones que cada uno establece. Climex te orienta en el trámite y te ayuda a identificar si una falla corresponde al equipo o a la instalación.</p>
+  <table>
+    <thead><tr><th>Ejemplo: equipos Mirage</th><th>Vigencia de fábrica</th></tr></thead>
+    <tbody>
+      <tr><td>Compresor</td><td class="v">6 años</td></tr>
+      <tr><td>Todas sus piezas</td><td class="v">1 año</td></tr>
+      <tr><td>Tarjeta electrónica y control</td><td class="v">3 meses</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Los plazos varían según la marca, el modelo y la fecha de compra; consulta la póliza del fabricante incluida con tu equipo. Para conservar la garantía de fábrica, la mayoría de los fabricantes exige que la instalación la realice un técnico certificado y que el equipo reciba mantenimiento periódico; conserva tus notas de servicio como comprobante.</p>
+</section>
+
+<section>
+  <h2>6. Recomendaciones para conservar tu garantía</h2>
+  <ul>
+    <li>Da mantenimiento preventivo a tu equipo cada 6 meses en uso residencial y cada 3 o 4 meses en oficinas, comercios o ambientes con polvo.</li>
+    <li>No modifiques la instalación eléctrica, la tubería ni el drenaje sin consultarnos.</li>
+    <li>Reporta cualquier anomalía en cuanto la detectes: un ruido, goteo o baja de enfriamiento atendido a tiempo evita daños mayores.</li>
+    <li>Guarda tu nota de servicio, factura y esta póliza; son tu comprobante ante Climex y ante el fabricante.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>7. Datos del servicio</h2>
+  <div class="form">
+    <div class="grid">
+      <div class="f">Cliente</div>
+      <div class="f">Nota / factura No.</div>
+      <div class="f">Servicio realizado</div>
+      <div class="f">Fecha de entrega</div>
+      <div class="f">Equipo (marca, modelo y capacidad)</div>
+      <div class="f">Garantía vigente hasta</div>
+      <div class="f wide">Domicilio del servicio</div>
+    </div>
+    <div class="sign">
+      <div>Técnico responsable · Climex Soluciones Integrales</div>
+      <div>Nombre y firma del cliente</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="note">Esta póliza no limita los derechos que te otorga la Ley Federal de Protección al Consumidor. Cualquier duda sobre su aplicación puedes aclararla con nosotros por WhatsApp, teléfono o correo antes de contratar el servicio.</p>
+</section>
+
+<footer class="foot">
+  <div><b>Climex Soluciones Integrales</b> · Aire acondicionado en Guadalajara y zona metropolitana desde 2008</div>
+  <div>Póliza de garantía · Versión septiembre 2026</div>
+</footer>
+
+</body>
+</html>

@@ -12,6 +12,8 @@ const nextConfig = {
       { source: '/cotizaciones-y-servicio/', destination: '/contacto', permanent: true },
       { source: '/cotizaciones', destination: '/contacto', permanent: true },
       { source: '/servicios-1', destination: '/servicios', permanent: true },
+      { source: '/garant%C3%ADas', destination: '/garantias', permanent: true },
+      { source: '/garant%C3%ADas/', destination: '/garantias', permanent: true },
     ]
   },
 }

@@ -101,7 +101,7 @@ FECHA Y HORA ACTUAL (Guadalajara): ${nowInGuadalajara()}.
 DIRECCIÓN: ${site.address.street}, ${site.address.neighborhood}, ${site.address.city}. Atendemos a domicilio.
 TELÉFONO: ${site.phones.main.display}. Correo: ${site.email}. Sitio: ${site.url}.
 MARCAS QUE VENDEMOS: ${site.brands.map((b) => b.name).join(', ')}. Atendemos todas las marcas.
-GARANTÍAS: ${site.guarantees.installation} en instalación, ${site.guarantees.maintenance} en mantenimiento, ${site.guarantees.equipment.toLowerCase()}.
+GARANTÍAS: ${site.guarantees.installation} en instalación, ${site.guarantees.maintenance} en mantenimiento, ${site.guarantees.equipment.toLowerCase()}. Póliza completa (PDF) en ${site.url}/garantias.
 FACTURACIÓN Y CUMPLIMIENTO: emitimos factura (CFDI). Estamos registrados en el REPSE y nuestro personal está dado de alta en el IMSS; si un cliente empresarial lo pregunta, confírmalo con seguridad.
 IVA: todos los precios de la lista son MÁS IVA (16 %). Cuando menciones un precio, aclara "más IVA".
 FORMAS DE PAGO: transferencia, efectivo o tarjeta de crédito/débito Visa, Mastercard y American Express (terminal Clip). Si pagará con tarjeta, debe avisar al agendar para que el técnico lleve la terminal.
