@@ -25,6 +25,7 @@ Node 20 (ver `.nvmrc`).
 | Menú principal | `navigation` en `lib/site.ts` |
 | Póliza de garantía (página /garantias) | `app/garantias/page.tsx` |
 | Póliza de garantía en PDF | edita `docs/garantia/garantia-climex.html` y corre `./scripts/build-garantia-pdf.sh` (usa Google Chrome); genera `public/garantia-climex.pdf` |
+| Póliza llenada por servicio (Climex One) | ver [`docs/garantia/README.md`](docs/garantia/README.md) |
 
 ## Asistente de WhatsApp
 

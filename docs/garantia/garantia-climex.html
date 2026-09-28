@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Póliza de garantía — Climex Soluciones Integrales</title>
 <style>
-  @page { size: Letter; margin: 16mm 16mm 18mm 16mm; }
+  @page { size: Letter; margin: 14mm 16mm 14mm 16mm; }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
@@ -33,9 +33,11 @@
   .summary .n { display: block; font-size: 17pt; font-weight: 800; color: #0088B8; line-height: 1.1; }
   .summary .l { display: block; font-size: 8.5pt; color: #3B4A63; margin-top: 2pt; }
 
-  section { margin-top: 12pt; }
+  section { margin-top: 10pt; }
   h2 { font-size: 12pt; font-weight: 800; color: #2B3990; padding-left: 9pt; border-left: 3pt solid #00A9E0; margin-bottom: 6pt; break-after: avoid; }
-  table, .box, ol.steps, .form, .note, .summary { break-inside: avoid; }
+  .box, ol.steps, .form, .note, .summary, .foot { break-inside: avoid; }
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; }
   h3 { font-size: 10.5pt; font-weight: 700; color: #0F1B33; margin: 8pt 0 3pt; }
 
   table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 4pt 0 6pt; }
@@ -59,14 +61,16 @@
   .note { background: #F4F8FB; border-radius: 8pt; padding: 8pt 11pt; font-size: 9pt; color: #3B4A63; }
   .small { font-size: 8.5pt; color: #526078; }
 
-  .form { border: 1pt solid #DDE5EE; border-radius: 8pt; padding: 10pt 12pt; }
-  .form .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6pt 16pt; margin-top: 4pt; }
-  .form .f { border-bottom: 1pt solid #B4BAE6; padding: 8pt 0 3pt; font-size: 8.5pt; color: #526078; }
+  /* Datos de la póliza: cada valor lleva data-field para que el sistema (Climex One) lo llene. */
+  .form { border: 1pt solid #B4BAE6; border-radius: 8pt; padding: 10pt 12pt 12pt; background: #FBFCFE; margin-top: 12pt; }
+  .form h2 { margin-bottom: 8pt; }
+  .form .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8pt 16pt; }
+  .form .f { border-bottom: 1pt solid #B4BAE6; padding-bottom: 3pt; }
   .form .f.wide { grid-column: 1 / -1; }
-  .sign { display: grid; grid-template-columns: 1fr 1fr; gap: 24pt; margin-top: 22pt; }
-  .sign div { border-top: 1pt solid #0F1B33; padding-top: 4pt; font-size: 8.5pt; color: #526078; text-align: center; }
+  .form .k { display: block; font-size: 7.5pt; text-transform: uppercase; letter-spacing: .08em; color: #526078; }
+  .form .v { display: block; min-height: 14pt; font-size: 10.5pt; font-weight: 700; color: #0F1B33; }
 
-  .foot { margin-top: 16pt; border-top: 1pt solid #DDE5EE; padding-top: 8pt; display: flex; justify-content: space-between; gap: 12pt; font-size: 8.5pt; color: #526078; }
+  .foot { margin-top: 10pt; border-top: 1pt solid #DDE5EE; padding-top: 6pt; display: flex; justify-content: space-between; gap: 12pt; font-size: 8.5pt; color: #526078; }
   .foot b { color: #0F1B33; }
 </style>
 </head>
@@ -94,6 +98,20 @@
   <div><span class="n">30 días</span><span class="l">en servicio de mantenimiento preventivo</span></div>
   <div><span class="n">De fábrica</span><span class="l">en equipos nuevos y refacciones, según cada fabricante</span></div>
 </div>
+
+<section class="form">
+  <h2>Datos de esta póliza</h2>
+  <div class="grid">
+    <div class="f wide"><span class="k">Cliente</span><span class="v" data-field="cliente"></span></div>
+    <div class="f"><span class="k">Folio / nota de servicio</span><span class="v" data-field="folio"></span></div>
+    <div class="f"><span class="k">Fecha de entrega del trabajo</span><span class="v" data-field="fecha_entrega"></span></div>
+    <div class="f"><span class="k">Garantía vigente hasta</span><span class="v" data-field="vigencia_hasta"></span></div>
+    <div class="f"><span class="k">Servicio realizado</span><span class="v" data-field="servicio"></span></div>
+    <div class="f"><span class="k">Equipo (marca, modelo y capacidad)</span><span class="v" data-field="equipo"></span></div>
+    <div class="f"><span class="k">Técnico responsable</span><span class="v" data-field="tecnico"></span></div>
+    <div class="f wide"><span class="k">Domicilio del servicio</span><span class="v" data-field="domicilio"></span></div>
+  </div>
+</section>
 
 <section>
   <h2>1. Alcance</h2>
@@ -177,30 +195,12 @@
     <li>Da mantenimiento preventivo a tu equipo cada 6 meses en uso residencial y cada 3 o 4 meses en oficinas, comercios o ambientes con polvo.</li>
     <li>No modifiques la instalación eléctrica, la tubería ni el drenaje sin consultarnos.</li>
     <li>Reporta cualquier anomalía en cuanto la detectes: un ruido, goteo o baja de enfriamiento atendido a tiempo evita daños mayores.</li>
-    <li>Guarda tu nota de servicio, factura y esta póliza; son tu comprobante ante Climex y ante el fabricante.</li>
+    <li>Guarda esta póliza junto con tu nota de servicio o factura; son tu comprobante ante Climex y ante el fabricante.</li>
   </ul>
 </section>
 
-<section>
-  <h2>7. Datos del servicio</h2>
-  <div class="form">
-    <div class="grid">
-      <div class="f">Cliente</div>
-      <div class="f">Nota / factura No.</div>
-      <div class="f">Servicio realizado</div>
-      <div class="f">Fecha de entrega</div>
-      <div class="f">Equipo (marca, modelo y capacidad)</div>
-      <div class="f">Garantía vigente hasta</div>
-      <div class="f wide">Domicilio del servicio</div>
-    </div>
-    <div class="sign">
-      <div>Técnico responsable · Climex Soluciones Integrales</div>
-      <div>Nombre y firma del cliente</div>
-    </div>
-  </div>
-</section>
 
-<section>
+<section style="break-inside: avoid">
   <p class="note">Esta póliza no limita los derechos que te otorga la Ley Federal de Protección al Consumidor. Cualquier duda sobre su aplicación puedes aclararla con nosotros por WhatsApp, teléfono o correo antes de contratar el servicio.</p>
 </section>
 
