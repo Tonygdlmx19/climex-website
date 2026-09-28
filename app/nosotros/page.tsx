@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import Image from 'next/image'
 import { Heart, ShieldCheck, Award, Users, Target, Eye } from 'lucide-react'
 import PageHero from '@/components/ui/PageHero'
@@ -114,6 +115,12 @@ export default function NosotrosPage() {
               </div>
             ))}
           </dl>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/garantias" className="btn-primary">Ver la póliza de garantía</Link>
+            <a href="/garantia-climex.pdf" download="Poliza-de-garantia-Climex.pdf" className="btn-ghost-light">
+              Descargar en PDF
+            </a>
+          </div>
         </div>
       </section>
 

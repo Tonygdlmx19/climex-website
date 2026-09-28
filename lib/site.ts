@@ -86,6 +86,7 @@ export const navigation = [
   { name: 'Nosotros', href: '/#nosotros' },
   { name: 'Trabajos', href: '/#trabajos' },
   { name: 'Opiniones', href: '/#opiniones' },
+  { name: 'Garantías', href: '/garantias' },
   { name: 'Contacto', href: '/#contacto' },
 ]
 

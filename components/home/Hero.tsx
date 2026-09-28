@@ -46,7 +46,9 @@ export default function Hero() {
           <ul className="mt-8 flex max-w-xl flex-wrap gap-x-6 gap-y-3 text-sm font-semibold text-slate-700">
             <li className="flex items-center gap-2">
               <ShieldCheck className="h-5 w-5 shrink-0 text-brand-600" aria-hidden="true" />
-              Garantía por escrito
+              <Link href="/garantias" className="underline decoration-brand-300 underline-offset-4 hover:text-brand-700">
+                Garantía por escrito
+              </Link>
             </li>
             <li className="flex items-center gap-2">
               <Clock className="h-5 w-5 shrink-0 text-brand-600" aria-hidden="true" />

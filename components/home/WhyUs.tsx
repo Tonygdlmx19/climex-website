@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { Award, ShieldCheck, Users, Clock, Wrench, BadgeDollarSign, Target, Eye } from 'lucide-react'
 import { site } from '@/lib/site'
 import SectionHeading from '@/components/ui/SectionHeading'
@@ -11,9 +12,9 @@ const stats = [
   { value: 90, prefix: '', suffix: ' días', decimals: 0, label: 'de garantía en instalación' },
 ]
 
-const features = [
+const features: { icon: typeof Award; title: string; text: string; href?: string; cta?: string }[] = [
   { icon: Award, title: 'Experiencia comprobada', text: `${site.yearsExperience} años en la industria del aire acondicionado.` },
-  { icon: ShieldCheck, title: 'Garantía por escrito', text: '90 días en instalación, 30 días en mantenimiento y garantía de fábrica en equipos.' },
+  { icon: ShieldCheck, title: 'Garantía por escrito', text: '90 días en instalación, 30 días en mantenimiento y garantía de fábrica en equipos.', href: '/garantias', cta: 'Ver la póliza completa' },
   { icon: Users, title: 'Técnicos certificados', text: 'Personal capacitado en las principales marcas.' },
   { icon: Clock, title: 'Respuesta rápida', text: 'Atendemos y programamos visitas el mismo día o al siguiente.' },
   { icon: Wrench, title: 'Servicio integral', text: 'Eléctrico, albañilería y acabados incluidos.' },
@@ -41,6 +42,11 @@ export default function WhyUs() {
                   <div>
                     <h3 className="font-bold text-ink">{f.title}</h3>
                     <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{f.text}</p>
+                    {f.href && (
+                      <Link href={f.href} className="mt-1 inline-block text-sm font-bold text-brand-600 hover:underline">
+                        {f.cta} →
+                      </Link>
+                    )}
                   </div>
                 </li>
               ))}
