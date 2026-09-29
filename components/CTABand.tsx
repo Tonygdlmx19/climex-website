@@ -5,7 +5,7 @@ import TrackedLink from '@/components/TrackedLink'
 
 export default function CTABand() {
   return (
-    <section className="bg-white py-16">
+    <section className="bg-white py-16" data-contact-zone>
       <div className="container">
         <div className="relative overflow-hidden rounded-3xl bg-navy-800 px-6 py-12 text-white sm:px-12 lg:px-16">
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">

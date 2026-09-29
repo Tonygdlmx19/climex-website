@@ -4,8 +4,7 @@ import Script from 'next/script'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import WhatsAppButton from '@/components/WhatsAppButton'
-import MobileBar from '@/components/MobileBar'
+import FloatingContact from '@/components/FloatingContact'
 import { site } from '@/lib/site'
 
 const manrope = Manrope({
@@ -103,7 +102,7 @@ const jsonLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es-MX" className={manrope.variable}>
-      <body className="font-sans pb-[calc(4rem+env(safe-area-inset-bottom))] sm:pb-0">
+      <body className="font-sans">
         <a
           href="#contenido"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-navy-600 focus:px-4 focus:py-2 focus:text-white"
@@ -113,8 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="contenido">{children}</main>
         <Footer />
-        <WhatsAppButton />
-        <MobileBar />
+        <FloatingContact />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

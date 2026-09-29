@@ -25,7 +25,7 @@ const empresa = [
 
 export default function Footer() {
   return (
-    <footer className="bg-navy-900 text-navy-100">
+    <footer className="bg-navy-900 text-navy-100" data-contact-zone>
       <div className="container py-14 lg:py-16">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
           <div>

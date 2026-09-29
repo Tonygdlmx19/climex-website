@@ -6,7 +6,7 @@ import TrackedLink from '@/components/TrackedLink'
 
 export default function Contact({ showMap = true }: { showMap?: boolean }) {
   return (
-    <section id="contacto" className="scroll-mt-20 bg-mist py-20 lg:py-24">
+    <section id="contacto" className="scroll-mt-20 bg-mist py-20 lg:py-24" data-contact-zone>
       <div className="container grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
         <div>
           <SectionHeading
