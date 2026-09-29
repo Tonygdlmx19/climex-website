@@ -27,6 +27,10 @@ export type Session = {
   history?: { role: 'user' | 'assistant'; content: string }[]
   /** Modo IA: ya se envió el lead al equipo en esta conversación */
   leadSent?: boolean
+  /** Folio del lead enviado, cuándo se envió y huella de sus datos (para no avisar dos veces lo mismo) */
+  leadFolio?: string
+  leadSentAt?: number
+  leadHash?: string
   /** Diagnóstico: motivo de la última respuesta vacía de la IA */
   lastEmptyReason?: string
   /** Seguimiento: última vez que habló el bot / el cliente, último texto del cliente y recordatorios enviados (0-3) */

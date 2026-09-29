@@ -6,17 +6,34 @@
 import { site } from '../site'
 import { send, dryRun } from './api'
 import type { Lead } from './flow'
+import { makeFolio } from '../folio'
 
 export type NotifyReport = { form?: string; whatsappText?: string; whatsappTemplate?: string }
+
+/**
+ * Meta rechaza parámetros de plantilla con saltos de línea, tabulaciones, más de 4 espacios
+ * seguidos o más de ~1024 caracteres. Se limpian antes de enviar.
+ */
+const templateParam = (v: string, max = 900) =>
+  (v || '-')
+    .replace(/[\r\n\t]+/g, ' · ')
+    .replace(/ {2,}/g, ' ')
+    .trim()
+    .slice(0, max) || '-'
 
 export async function notifyTeam(lead: Lead): Promise<NotifyReport> {
   const report: NotifyReport = {}
   const tasks: Promise<unknown>[] = []
+  const folio = lead.folio || makeFolio('W')
+  const tipo = lead.origen === 'asesor' ? 'Pide asesor' : lead.actualizacion ? 'Actualización' : 'Lead WhatsApp'
+  const subject = `${tipo} ${folio} · ${lead.nombre} · ${lead.servicio}`
 
   // 1) Correo vía Netlify Forms
   if (!dryRun()) {
     const body = new URLSearchParams({
       'form-name': 'lead-whatsapp',
+      subject,
+      folio,
       telefono: `+${lead.telefono}`,
       nombre: lead.nombre,
       servicio: lead.servicio,
@@ -29,11 +46,11 @@ export async function notifyTeam(lead: Lead): Promise<NotifyReport> {
       logistica: lead.logistica || '-',
       resumen: lead.resumen || '-',
       origen:
-        lead.origen === 'asesor'
+        (lead.origen === 'asesor'
           ? 'Pidió hablar con asesor'
           : lead.origen === 'ia'
             ? 'Listo para agendar (asistente IA)'
-            : 'Cotización por bot',
+            : 'Cotización por bot') + (lead.actualizacion ? ' · actualización de una solicitud ya registrada' : ''),
       chat: `https://wa.me/${lead.telefono}`,
     })
     tasks.push(
@@ -60,7 +77,8 @@ export async function notifyTeam(lead: Lead): Promise<NotifyReport> {
   const template = process.env.WA_TEAM_TEMPLATE || 'nuevo_lead'
   if (team) {
     const texto = [
-      `🔔 *Nuevo contacto por WhatsApp*${lead.origen === 'asesor' ? ' (pide asesor)' : ''}`,
+      `🔔 *${lead.actualizacion ? 'Actualización de solicitud' : 'Nuevo contacto por WhatsApp'}*${lead.origen === 'asesor' ? ' (pide asesor)' : ''}`,
+      `Folio: ${folio}`,
       `Nombre: ${lead.nombre}`,
       `Servicio: ${lead.servicio}`,
       lead.equipo ? `Equipo: ${lead.equipo}` : null,
@@ -77,7 +95,7 @@ export async function notifyTeam(lead: Lead): Promise<NotifyReport> {
       .join('\n')
     tasks.push(
       (async () => {
-        const r = await send({ type: 'text', to: team, body: texto })
+        const r = await send({ type: 'text', to: team, body: texto.slice(0, 4000) })
         report.whatsappText = r.ok ? 'ok' : `error ${r.error}`
         if (!r.ok && template) {
           const t = await send({
@@ -86,12 +104,12 @@ export async function notifyTeam(lead: Lead): Promise<NotifyReport> {
             name: template,
             lang: process.env.WA_TEAM_TEMPLATE_LANG || 'es_MX',
             params: [
-              lead.nombre,
-              lead.servicio,
-              lead.equipo || '-',
-              lead.zona,
-              `${lead.detalle}${lead.horario ? ` · Horario: ${lead.horario}` : ''}${lead.acceso ? ` · Acceso: ${lead.acceso}` : ''}`,
-              `+${lead.telefono}`,
+              templateParam(`${lead.nombre} (${folio})`, 120),
+              templateParam(lead.servicio, 120),
+              templateParam(lead.equipo || '-', 200),
+              templateParam(lead.zona, 200),
+              templateParam(`${lead.detalle}${lead.horario ? ` · Horario: ${lead.horario}` : ''}${lead.acceso ? ` · Acceso: ${lead.acceso}` : ''}`),
+              templateParam(`+${lead.telefono}`, 40),
             ],
           })
           report.whatsappTemplate = t.ok ? 'ok' : `error ${t.error}`

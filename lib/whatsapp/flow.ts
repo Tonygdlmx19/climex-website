@@ -7,6 +7,7 @@
  * empezar de nuevo.  Fuera de horario se avisa cuándo se responde.
  */
 import { site } from '../site'
+import { makeFolio } from '../folio'
 import { faqs } from '../faq'
 import { isBusinessHours } from './hours'
 import type { OutboundMessage } from './api'
@@ -28,6 +29,10 @@ export type Lead = {
   zona: string
   detalle: string
   origen: 'bot' | 'asesor' | 'ia'
+  /** Folio de la solicitud (W-AAMMDD-HHMM). Se conserva si es una actualización del mismo lead. */
+  folio?: string
+  /** true cuando el cliente cambió datos de un lead ya registrado en la misma conversación */
+  actualizacion?: boolean
   /** Preferencia de día/horario para la visita (modo IA) */
   horario?: string
   /** Acceso para el técnico: azotea, escalera marina, escalera necesaria y altura (modo IA) */
@@ -180,6 +185,7 @@ function buildLead(from: string, s: Session, origen: Lead['origen']): Lead {
     zona: s.zona || 'Por definir',
     detalle: s.detalle || '-',
     origen,
+    folio: makeFolio('W'),
   }
 }
 

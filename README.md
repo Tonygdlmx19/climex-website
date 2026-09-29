@@ -41,6 +41,14 @@ notificaciones por correo a `administracion@climexsi.com`.
 
 Además, cada formulario ofrece "Enviar por WhatsApp" con los datos ya escritos.
 
+Cada envío lleva un **folio** (`C-AAMMDD-HHMM`, hora de Guadalajara; `lib/folio.ts`) y un campo `subject`
+que Netlify usa como asunto del correo: `Cotización C-260929-1432 · Nombre · Servicio`. Los leads del
+asistente de WhatsApp usan el prefijo `W-` y el asunto `Lead WhatsApp W-… · Nombre · Servicio`
+(`Actualización W-…` si el cliente cambió datos de una solicitud ya registrada).
+
+Si llegan varios correos por la misma solicitud, revisa en **Netlify → Forms → Form notifications** que solo
+exista una notificación por correo (una regla "all forms" más una por formulario manda dos o tres correos).
+
 ## Medición (Google Ads / GA4)
 
 Define `NEXT_PUBLIC_GA_ID` (por ejemplo `G-XXXXXXX` o `AW-XXXXXXX`) en las variables de entorno de

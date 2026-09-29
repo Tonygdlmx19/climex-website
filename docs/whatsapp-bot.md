@@ -119,6 +119,19 @@ confirma la cita desde el 33 2456 8104. Si el cliente pide una persona, avisa al
 Sin clave, o si la IA falla, se usa el menú guiado. `ANTHROPIC_MODEL` cambia el modelo
 (por defecto `claude-sonnet-5`). El cliente puede escribir "menu" para empezar de cero.
 
+## Folio y avisos sin duplicados
+
+Cada lead recibe un folio `W-AAMMDD-HHMM` que va en el asunto del correo, en el cuerpo y en el aviso de
+WhatsApp al equipo, y que el asistente menciona al cliente. Dentro de una misma conversación el lead
+se registra una sola vez: si el cliente cambia datos importantes (servicio, equipo, zona, horario) se
+manda una **actualización con el mismo folio**; si repite lo mismo, pregunta o se despide, no se vuelve
+a avisar. Los parámetros de la plantilla `nuevo_lead` se limpian (sin saltos de línea, máximo ~900
+caracteres) porque Meta los rechaza tal cual.
+
+Para ver por qué un aviso por WhatsApp no llegó: `/api/whatsapp/test-notify?key=<WA_VERIFY_TOKEN>&log=1`
+muestra los últimos eventos; en `aviso_equipo` aparece `whatsappText` (mensaje normal, solo funciona si el
+equipo escribió al bot en las últimas 24 h) y `whatsappTemplate` (plantilla) con el error exacto de Meta.
+
 ## Seguimiento de conversaciones a medias
 
 `netlify/functions/whatsapp-followups.mts` corre cada 3 minutos y, para conversaciones sin lead

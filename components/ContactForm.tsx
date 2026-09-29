@@ -4,6 +4,7 @@ import { useState, type FormEvent } from 'react'
 import { Send, MessageCircle, CheckCircle2, AlertCircle } from 'lucide-react'
 import { serviceOptions, whatsappUrl } from '@/lib/site'
 import { track } from '@/lib/analytics'
+import { makeFolio } from '@/lib/folio'
 
 type Status = 'idle' | 'sending' | 'ok' | 'error'
 
@@ -16,6 +17,7 @@ const initial = { nombre: '', telefono: '', email: '', servicio: '', mensaje: ''
 export default function ContactForm({ compact = false, defaultService = '' }: { compact?: boolean; defaultService?: string }) {
   const [data, setData] = useState({ ...initial, servicio: defaultService })
   const [status, setStatus] = useState<Status>('idle')
+  const [folio, setFolio] = useState('')
 
   const set = (k: keyof typeof initial) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setData({ ...data, [k]: e.target.value })
@@ -26,7 +28,14 @@ export default function ContactForm({ compact = false, defaultService = '' }: { 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setStatus('sending')
-    const body = new URLSearchParams({ 'form-name': 'cotizacion', ...data })
+    // Folio y asunto: Netlify usa el campo "subject" como asunto del correo de aviso.
+    const nuevoFolio = makeFolio('C')
+    const body = new URLSearchParams({
+      'form-name': 'cotizacion',
+      ...data,
+      folio: nuevoFolio,
+      subject: `Cotización ${nuevoFolio} · ${data.nombre.trim() || 'Sin nombre'} · ${data.servicio || 'Servicio por definir'}`,
+    })
     try {
       const res = await fetch('/__forms.html', {
         method: 'POST',
@@ -35,6 +44,7 @@ export default function ContactForm({ compact = false, defaultService = '' }: { 
       })
       if (!res.ok) throw new Error(String(res.status))
       track('form_submit', { servicio: data.servicio || 'sin especificar' })
+      setFolio(nuevoFolio)
       setStatus('ok')
       setData(initial)
     } catch {
@@ -50,6 +60,11 @@ export default function ContactForm({ compact = false, defaultService = '' }: { 
         <p className="mt-2 max-w-sm text-sm text-slate-600">
           Te contactamos hoy mismo en horario de oficina. Si es urgente, escríbenos por WhatsApp.
         </p>
+        {folio && (
+          <p className="mt-3 rounded-full bg-white px-4 py-1.5 text-sm text-slate-600">
+            Tu número de solicitud: <span className="tabular font-bold text-ink">{folio}</span>
+          </p>
+        )}
         <a
           href={whatsappUrl()}
           target="_blank"

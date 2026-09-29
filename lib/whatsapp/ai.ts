@@ -13,6 +13,7 @@ import { faqs } from '../faq'
 import { precios, politicaPrecios } from './precios'
 import { isBusinessHours } from './hours'
 import type { Lead } from './flow'
+import { makeFolio } from '../folio'
 import type { Session } from './store'
 
 const API = 'https://api.anthropic.com/v1/messages'
@@ -115,7 +116,7 @@ ${preciosTxt}
 PREGUNTAS FRECUENTES (usa estas respuestas como base)
 ${faqTxt}
 
-${session.leadSent ? 'NOTA: en esta conversación ya se registró un lead antes. Si el cliente hace una NUEVA solicitud o cambia datos importantes (servicio, equipo, zona, horario), vuelve a llamar registrar_lead con la información actualizada; si solo pregunta algo, responde con normalidad.' : ''}`
+${session.leadSent ? `NOTA: en esta conversación YA se registró la solicitud (folio ${session.leadFolio || 'asignado'}) y el equipo ya fue avisado. NO vuelvas a llamar registrar_lead por preguntas, agradecimientos, despedidas o para repetir lo mismo. Llámala de nuevo SOLO si el cliente cambia un dato importante (servicio, equipo, zona, horario o dirección) o pide un servicio adicional distinto; en ese caso manda TODOS los datos completos otra vez. Si el cliente pregunta por su solicitud, dile que ya está registrada con el folio ${session.leadFolio || ''} y que un asesor le escribe desde el ${site.whatsappAsesores.display}.` : ''}`
 }
 
 const tools = [
@@ -177,6 +178,12 @@ async function callClaude(system: string, messages: Msg[]) {
 }
 
 export type AiResult = { session: Session; reply: string; lead?: Lead }
+
+/** Huella de los datos que importan al asesor; si no cambia, no se vuelve a avisar. */
+const leadHash = (l: Lead) =>
+  [l.servicio, l.equipo, l.zona, l.detalle, l.horario, l.acceso, l.contactoEnSitio, l.logistica]
+    .map((v) => (v || '').trim().toLowerCase())
+    .join('|')
 export type Attachment = { base64: string; mimeType: string }
 
 /** Un turno de conversación con la IA. Devuelve la respuesta de texto y, si aplica, el lead. */
@@ -224,7 +231,7 @@ export async function aiTurn(
     for (const tu of toolUses) {
       const input = tu.input ?? {}
       if (tu.name === 'registrar_lead') {
-        lead = {
+        const candidate: Lead = {
           telefono: from,
           nombre: input.nombre || session.profileName || 'Sin nombre',
           servicio: input.servicio || 'Por definir',
@@ -238,9 +245,21 @@ export async function aiTurn(
           resumen: input.resumen,
           origen: 'ia',
         }
-        session.leadSent = true
-        session.step = 'done'
-        results.push({ type: 'tool_result', tool_use_id: tu.id, content: 'Lead registrado. Un asesor humano confirmará la cita por WhatsApp.' })
+        const hash = leadHash(candidate)
+        if (session.leadSent && session.leadHash === hash) {
+          // Mismo lead, mismos datos: no se vuelve a avisar al equipo.
+          results.push({ type: 'tool_result', tool_use_id: tu.id, content: `La solicitud ya estaba registrada con el folio ${session.leadFolio || ''} y el equipo ya fue avisado. No se envió un aviso nuevo.` })
+        } else {
+          candidate.folio = session.leadFolio || makeFolio('W')
+          candidate.actualizacion = !!session.leadSent
+          lead = candidate
+          session.leadSent = true
+          session.leadFolio = candidate.folio
+          session.leadSentAt = Date.now()
+          session.leadHash = hash
+          session.step = 'done'
+          results.push({ type: 'tool_result', tool_use_id: tu.id, content: `${candidate.actualizacion ? 'Solicitud actualizada' : 'Lead registrado'} con el folio ${candidate.folio}. Un asesor humano confirmará la cita por WhatsApp. Menciona el folio al cliente.` })
+        }
       } else if (tu.name === 'pasar_a_asesor') {
         lead = {
           telefono: from,
@@ -251,8 +270,12 @@ export async function aiTurn(
           detalle: `${input.motivo || 'Pidió asesor'}. ${input.resumen || ''}`.trim(),
           resumen: input.resumen,
           origen: 'asesor',
+          folio: session.leadFolio || makeFolio('W'),
+          actualizacion: !!session.leadSent,
         }
         session.leadSent = true
+        session.leadFolio = lead.folio
+        session.leadSentAt = Date.now()
         session.step = 'humano'
         results.push({ type: 'tool_result', tool_use_id: tu.id, content: 'Aviso enviado al equipo. Un asesor escribirá al cliente.' })
       } else {
