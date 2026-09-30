@@ -5,7 +5,7 @@
  * netlify/functions/whatsapp-process-background (producción).
  */
 import { next as advance, type Inbound } from './flow'
-import { getSession, setSession, logEvent } from './store'
+import { getSession, setSession, logEvent, setTeamLastInbound } from './store'
 import { send, markRead, dryRun, downloadMedia, type OutboundMessage } from './api'
 import { notifyTeam } from './notify'
 import { aiEnabled, aiTurn, wantsReset } from './ai'
@@ -43,6 +43,18 @@ export async function processWebhook(body: unknown): Promise<OutboundMessage[]> 
         } else if (m.type === 'button') inbound.text = m.button?.text
         else if (m.type === 'image') inbound.text = m.image?.caption ?? ''
         else inbound.text = '' // audio, ubicación, documento… se pide texto
+
+        // Mensaje del propio equipo al bot: abre la ventana de 24 h para recibir avisos como
+        // mensaje normal. No se procesa como cliente.
+        const team = process.env.WA_TEAM_NUMBER || '5213324568104'
+        if (m.from === team || m.from === team.replace(/^521/, '52')) {
+          await setTeamLastInbound()
+          await logEvent('ventana_equipo', m.from)
+          const ack: OutboundMessage = { type: 'text', to: m.from, body: '✅ Listo. Durante las próximas 24 h los avisos de leads te llegarán aquí como mensaje normal (con resumen completo). Después, como plantilla.' }
+          outbox.push(ack)
+          await send(ack)
+          continue
+        }
 
         const prev = await getSession(m.from)
         if (prev?.lastMessageId === m.id) continue // Meta reintenta: no procesar dos veces

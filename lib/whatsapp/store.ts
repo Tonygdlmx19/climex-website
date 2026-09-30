@@ -79,6 +79,35 @@ export async function clearSession(phone: string): Promise<void> {
   await store.delete(phone).catch(() => {})
 }
 
+/**
+ * Ventana de 24 h del número del equipo: Meta solo entrega mensajes normales si el destinatario
+ * escribió al bot en las últimas 24 h; fuera de eso hay que usar plantilla.
+ */
+const TEAM_KEY = 'team-window'
+let teamMemory = 0
+
+export async function setTeamLastInbound(at = Date.now()): Promise<void> {
+  const store = blobs()
+  if (!store) {
+    teamMemory = at
+    return
+  }
+  await store.setJSON(TEAM_KEY, { at }).catch(() => {})
+}
+
+export async function teamWindowOpen(now = Date.now()): Promise<boolean> {
+  const store = blobs()
+  let at = teamMemory
+  if (store) {
+    try {
+      at = ((await store.get(TEAM_KEY, { type: 'json' })) as { at?: number } | null)?.at ?? 0
+    } catch {
+      at = 0
+    }
+  }
+  return now - at < 23 * 60 * 60 * 1000
+}
+
 /** Registro de diagnóstico (últimos eventos) para /api/whatsapp/test-notify?log=1 */
 export type LogEntry = { t: string; from?: string; ev: string; data?: unknown }
 
@@ -113,7 +142,7 @@ export async function listSessions(): Promise<{ phone: string; session: Session 
   try {
     const { blobs: items } = await store.list()
     for (const b of items) {
-      if (b.key === 'log') continue
+      if (b.key === 'log' || b.key === TEAM_KEY) continue
       const session = (await store.get(b.key, { type: 'json' })) as Session | null
       if (session) out.push({ phone: b.key, session })
     }

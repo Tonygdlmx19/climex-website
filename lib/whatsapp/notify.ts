@@ -7,8 +7,9 @@ import { site } from '../site'
 import { send, dryRun } from './api'
 import type { Lead } from './flow'
 import { makeFolio } from '../folio'
+import { teamWindowOpen } from './store'
 
-export type NotifyReport = { form?: string; whatsappText?: string; whatsappTemplate?: string }
+export type NotifyReport = { form?: string; whatsappText?: string; whatsappTemplate?: string; ventana?: 'abierta' | 'cerrada' }
 
 /**
  * Meta rechaza parámetros de plantilla con saltos de línea, tabulaciones, más de 4 espacios
@@ -70,9 +71,11 @@ export async function notifyTeam(lead: Lead): Promise<NotifyReport> {
     )
   }
 
-  // 2) WhatsApp al equipo. Primero mensaje normal (funciona si el equipo escribió al bot en las
-  //    últimas 24 h); si Meta lo rechaza, plantilla aprobada (funciona siempre).
-  //    Número y plantilla se pueden cambiar por variables de entorno.
+  // 2) WhatsApp al equipo. Meta ACEPTA un mensaje normal aunque después lo marque como fallido
+  //    (error 131047) si el equipo no ha escrito al bot en 24 h; por eso no basta con "reintentar
+  //    si falla": se decide antes. Ventana abierta → mensaje normal (más completo); cerrada →
+  //    plantilla aprobada (funciona siempre). El equipo abre la ventana escribiendo cualquier
+  //    cosa al número del bot. Número y plantilla se cambian por variables de entorno.
   const team = process.env.WA_TEAM_NUMBER || '5213324568104'
   const template = process.env.WA_TEAM_TEMPLATE || 'nuevo_lead'
   if (team) {
@@ -95,9 +98,15 @@ export async function notifyTeam(lead: Lead): Promise<NotifyReport> {
       .join('\n')
     tasks.push(
       (async () => {
-        const r = await send({ type: 'text', to: team, body: texto.slice(0, 4000) })
-        report.whatsappText = r.ok ? 'ok' : `error ${r.error}`
-        if (!r.ok && template) {
+        const abierta = await teamWindowOpen()
+        report.ventana = abierta ? 'abierta' : 'cerrada'
+        let textOk = false
+        if (abierta) {
+          const r = await send({ type: 'text', to: team, body: texto.slice(0, 4000) })
+          textOk = r.ok
+          report.whatsappText = r.ok ? 'ok' : `error ${r.error}`
+        }
+        if (!textOk && template) {
           const t = await send({
             type: 'template',
             to: team,

@@ -128,6 +128,12 @@ manda una **actualización con el mismo folio**; si repite lo mismo, pregunta o 
 a avisar. Los parámetros de la plantilla `nuevo_lead` se limpian (sin saltos de línea, máximo ~900
 caracteres) porque Meta los rechaza tal cual.
 
+El aviso por WhatsApp al equipo se manda como **plantilla** (`nuevo_lead`) salvo que el número del
+equipo haya escrito al bot en las últimas 24 h; en ese caso va como mensaje normal con el resumen
+completo. Meta acepta un mensaje normal y después lo marca fallido (error 131047) si esa ventana está
+cerrada, por eso se decide antes de enviar. Para abrir la ventana basta con escribir cualquier cosa
+desde el 33 2456 8104 al número del bot; el bot contesta con una confirmación.
+
 Para ver por qué un aviso por WhatsApp no llegó: `/api/whatsapp/test-notify?key=<WA_VERIFY_TOKEN>&log=1`
 muestra los últimos eventos; en `aviso_equipo` aparece `whatsappText` (mensaje normal, solo funciona si el
 equipo escribió al bot en las últimas 24 h) y `whatsappTemplate` (plantilla) con el error exacto de Meta.
