@@ -134,6 +134,13 @@ completo. Meta acepta un mensaje normal y después lo marca fallido (error 13104
 cerrada, por eso se decide antes de enviar. Para abrir la ventana basta con escribir cualquier cosa
 desde el 33 2456 8104 al número del bot; el bot contesta con una confirmación.
 
+Las plantillas son mensajes iniciados por el negocio y Meta los cobra; si la cuenta de WhatsApp
+Business no tiene moneda y método de pago configurados, Meta acepta el envío y después lo marca fallido
+con el error **131042** ("Business eligibility payment issue"). Se configura en Meta Business Suite →
+Configuración → Facturación y pagos (WhatsApp) o en WhatsApp Manager → Herramientas de la cuenta →
+Métodos de pago. Las respuestas a clientes dentro de las 24 h no se cobran, por eso el bot sí funciona
+aunque las plantillas fallen.
+
 Para ver por qué un aviso por WhatsApp no llegó: `/api/whatsapp/test-notify?key=<WA_VERIFY_TOKEN>&log=1`
 muestra los últimos eventos; en `aviso_equipo` aparece `whatsappText` (mensaje normal, solo funciona si el
 equipo escribió al bot en las últimas 24 h) y `whatsappTemplate` (plantilla) con el error exacto de Meta.
